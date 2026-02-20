@@ -1,0 +1,104 @@
+# Ruff configuration
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "alembic",
+    ".pytest_cache",
+]
+
+[tool.ruff.lint]
+# Only enable specific rule sets (ERA is NOT included)
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "N",  # pep8-naming
+    "UP", # pyupgrade
+    "B",  # flake8-bugbear
+    "S",  # bandit security checks
+]
+
+ignore = [
+    "E501",    # line too long (handled by formatter)
+    "S101",    # assert used (we use asserts in tests)
+    "UP007",   # use X | Y for type annotations (Optional[X] is still valid)
+    "UP017",   # use datetime.UTC alias (timezone.utc is more explicit)
+]
+
+# Explicitly extend ignore to disable any default-enabled ERA rules
+extend-ignore = [
+    "ERA",   # eradicate - commented-out code (allowed in alembic migrations)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+"alembic/*" = ["ERA001"]  # Allow commented code in alembic migrations
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# Pytest configuration
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+    "api: API tests",
+    "db: Database tests",
+]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=0",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:fastapi.applications",
+    "ignore::DeprecationWarning:fastapi.openapi.utils",
+    "ignore:You probably want to use:DeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "tests/*",
+    "alembic/*",
+    "*/__init__.py",
+]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+fail_under = 0
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]

@@ -1,0 +1,16 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.git/
+# .env files excluded from build context (image doesn't need them)
+# docker-compose env_file: reads .env.local from the HOST filesystem, not the build context —
+# so this exclusion does NOT prevent Docker Compose from reading env vars.
+.env
+.env.*
+tests/
