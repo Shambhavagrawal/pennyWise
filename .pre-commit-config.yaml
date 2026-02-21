@@ -27,7 +27,7 @@ repos:
 
       - id: lint-staged-frontend
         name: lint-staged (frontend)
-        entry: npx --prefix frontend lint-staged
+        entry: bash -c "cd frontend && npx lint-staged"
         language: system
         files: ^frontend/
         pass_filenames: false
