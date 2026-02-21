@@ -1,0 +1,79 @@
+# docker-compose.prod.yml — production overlay
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up
+services:
+  db:
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER must be set}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB must be set}
+
+  redis:
+    restart: unless-stopped
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./backend
+      target: production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:?POSTGRES_USER must be set}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@db:5432/${POSTGRES_DB:?POSTGRES_DB must be set}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set}
+      CORS_ORIGINS: ${CORS_ORIGINS:?CORS_ORIGINS must be set}
+      ENVIRONMENT: production
+      DEBUG: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+  migrations:
+    build:
+      context: ./backend
+      target: production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:?POSTGRES_USER must be set}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@db:5432/${POSTGRES_DB:?POSTGRES_DB must be set}
+
+  frontend:
+    restart: unless-stopped
+    build:
+      context: ./frontend
+      target: production
+    environment:
+      NODE_ENV: production
+
+  nginx:
+    restart: unless-stopped
+    image: nginx:alpine
+    ports: ["80:80"]
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on: [backend, frontend]
+    networks: [app-network]
+
+  # Uncomment when prometheus-fastapi-instrumentator is installed and /metrics endpoint exists:
+  # prometheus:
+  #   restart: unless-stopped
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #     - prometheus_data:/prometheus
+  #   networks: [app-network]
+
+  # Uncomment when Prometheus is enabled and has data to visualize:
+  # grafana:
+  #   restart: unless-stopped
+  #   image: grafana/grafana:latest
+  #   volumes: [grafana_data:/var/lib/grafana]
+  #   depends_on: [prometheus]
+  #   networks: [app-network]
+
+# Uncomment when Prometheus/Grafana are enabled:
+# volumes:
+#   prometheus_data:
+#   grafana_data:

@@ -1,0 +1,40 @@
+# Python / Backend
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+# NOTE: alembic/versions/*.py is NOT ignored — migrations must be committed
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+.turbo/
+coverage/
+.vercel
+
+# Environment — per-project, never root
+# NOTE: .env.* is broad — also ignores .env.test, .env.staging, etc.
+# If those need to be committed (non-secret configs), add explicit exclusions like !backend/.env.test
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Session — ephemeral state excluded, persistent data committed
+.session/tracking/status_update.json
+.session/history/
+
+# OS
+.DS_Store
+Thumbs.db

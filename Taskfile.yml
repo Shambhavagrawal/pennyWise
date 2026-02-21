@@ -1,0 +1,124 @@
+version: "3"
+
+# Cross-platform venv path: venv/Scripts/ on Windows, venv/bin/ on Linux/Mac
+vars:
+  VENV_BIN: '{{if eq OS "windows"}}venv/Scripts{{else}}venv/bin{{end}}'
+
+tasks:
+  install:
+    desc: Install all dependencies
+    cmds:
+      - task: install:backend
+      - task: install:frontend
+
+  install:backend:
+    dir: backend
+    cmds:
+      - cmd: python -m venv venv
+      - cmd: "{{.VENV_BIN}}/pip install -r requirements.txt -r requirements-dev.txt"
+
+  install:frontend:
+    dir: frontend
+    cmd: npm install
+
+  dev:
+    desc: Start full stack via Docker Compose (dev mode)
+    cmd: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+
+  prod:
+    desc: Start full stack via Docker Compose (production mode)
+    cmd: docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+
+  backend:
+    desc: Run backend dev server (local)
+    dir: backend
+    cmd: "{{.VENV_BIN}}/uvicorn src.main:app --reload"
+
+  frontend:
+    desc: Run frontend dev server (local)
+    dir: frontend
+    cmd: npm run dev
+
+  test:
+    desc: Run all tests
+    cmds:
+      - task: test:backend
+      - task: test:frontend
+
+  test:backend:
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m pytest"
+
+  test:frontend:
+    dir: frontend
+    cmd: npm test
+
+  migrate:
+    desc: Run Alembic migrations
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m alembic upgrade head"
+
+  lint:
+    desc: Run all linters
+    cmds:
+      - task: lint:backend
+      - task: lint:frontend
+
+  lint:backend:
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m ruff check ."
+
+  lint:frontend:
+    dir: frontend
+    cmd: npm run lint
+
+  lint:frontend:staged:
+    desc: Run lint-staged on frontend (used by pre-commit hook)
+    dir: frontend
+    cmd: npx lint-staged
+
+  format:
+    desc: Format all code
+    cmds:
+      - task: format:backend
+      - task: format:frontend
+
+  format:backend:
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m ruff format ."
+
+  format:frontend:
+    dir: frontend
+    cmd: npx prettier --write .
+
+  type-check:
+    desc: Run type checkers
+    cmds:
+      - task: type-check:backend
+      - task: type-check:frontend
+
+  type-check:backend:
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m pyright"
+
+  type-check:frontend:
+    dir: frontend
+    cmd: npm run type-check
+
+  clean:
+    desc: Stop containers and remove volumes/caches
+    cmds:
+      - docker compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+      - cmd: '{{if eq OS "windows"}}powershell -Command "Remove-Item -Recurse -Force -ErrorAction SilentlyContinue backend/__pycache__,backend/.pytest_cache,backend/.ruff_cache,backend/htmlcov,frontend/.next,frontend/coverage"{{else}}rm -rf backend/__pycache__ backend/.pytest_cache backend/.ruff_cache backend/htmlcov frontend/.next frontend/coverage{{end}}'
+
+  db:reset:
+    desc: Drop and recreate database, run migrations
+    dir: backend
+    cmds:
+      - cmd: "{{.VENV_BIN}}/python -m alembic downgrade base"
+      - cmd: "{{.VENV_BIN}}/python -m alembic upgrade head"
+
+  db:migrate:create:
+    desc: "Create a new Alembic migration (usage: task db:migrate:create -- 'add user table')"
+    dir: backend
+    cmd: "{{.VENV_BIN}}/python -m alembic revision --autogenerate -m \"{{.CLI_ARGS}}\""
