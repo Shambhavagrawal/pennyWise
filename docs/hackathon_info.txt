@@ -1,0 +1,266 @@
+# BlackRock hackathons in India: winning projects, tech stacks, and insider insights
+
+**BlackRock runs three distinct hackathon programs touching India — an internal global event (HACK:BLK), a campus series for students (HackKnight), and a professional recruitment challenge (Hacking India) — collectively drawing thousands of participants and producing solutions that have become real products like Aladdin Wealth.** India punches well above its weight in these events: roughly **40% of all hackathon ideas** in recent HACK:BLK editions originated from India-based teams, and the India-Japan team won the 2023 global hackathon. The themes consistently orbit financial technology, Aladdin platform innovation, AI/ML applications, and financial literacy — reflecting BlackRock's core business priorities. Below is everything publicly available about winning projects, tech choices, and what separates winners from the rest.
+
+## Three hackathon programs serve different audiences
+
+BlackRock's hackathon ecosystem in India operates across three tiers. **HACK:BLK**, the flagship internal employee hackathon, launched around 2015 and celebrated its 10th anniversary in 2024. It spans all regions and business functions, with India-based employees in Gurugram, Mumbai, and Bengaluru forming cross-regional teams with colleagues worldwide. Teams virtually plan a project, then execute a two-day sprint to build a working prototype. Finalists create video presentations and the entire firm votes to select winners.
+
+**HackKnight** is BlackRock India's student-facing 24-hour hackathon, held simultaneously at Indian campuses. The 2024 edition ran at VIT Pune and Thapar Institute of Engineering and Technology, drawing **440 participants across 110 teams** who produced 108 working prototypes. Seven teams won — four at VIT Pune, three at Thapar. The 2023 edition also ran at Thapar University. These events serve as a recruitment pipeline, with several HackKnight participants later joining BlackRock as analysts.
+
+The newest addition, **Hacking India 2026**, targets experienced software engineers with 3–7 years of experience. Hosted on HackerRank, it launched on February 20, 2026, with a 7-hour coding challenge on February 21. Participants must submit a public Git repository with a Dockerfile, a Docker container image running on **port 5477**, and a 3–5 minute video demo. The theme: "Building Sustainable Financial Well-Being."
+
+## Winning projects that became real products
+
+The most consequential winners have crossed the gap from prototype to production. **Aladdin Wealth**, now a fully operational solution used by wealth managers globally, originated as a HACK:BLK hackathon concept. **BLK4U (BlackRock for Universities)**, born from Sam Konigsberg's idea at the 2020 Atlanta hackathon, now operates at **45+ schools** across the U.S. and Europe, teaching portfolio construction using Aladdin's Portfolio 360 tool.
+
+The **2023 HACK:BLK winner, Smart Sensei**, was built by a cross-regional team led by Mael Pidjou (Associate, Aladdin Client Business, Tokyo) that included **three colleagues from India**. Smart Sensei applied generative AI and machine learning to search BlackRock's Aladdin data reservoirs more intuitively — essentially building a ChatGPT-style interface for internal financial data retrieval. The project caught the attention of an AI team in London for potential production implementation. The team deliberately assembled diverse skills: ML/language model engineers, an analyst with machine learning interest, and a Director providing project management.
+
+The **2020 HACK:BLK produced two winners** for the first time in the event's history. **Themantic** (the firm-wide vote winner) used state-of-the-art NLP to process corporate disclosures and automatically create thematic portfolios aligned with investor values — sustainability, growth, robotics, education. **Aladdin Eye** (the Global Operating Committee winner) built a flexible search and visualization platform for financial analysts, specifically targeting Private Markets documents for extracting investment and due diligence insights. That year saw **1,200 registered participants submit 500 ideas**, with 192 coming from cross-regional teams.
+
+## Student projects from HackKnight reveal common patterns
+
+Among publicly documented HackKnight projects, **FinEdge** stands out from the 2023 edition. Built by a Thapar University team (Arunain Mahant, Jahanavi Khattar, and Govind), it was a comprehensive fintech application featuring an AI-powered chatbot, a Knowledge Hub with courses and blogs for financial literacy, a trading dashboard with real-time stock analysis, and **FinGames** — gamified learning experiences. The multi-feature approach reflected the judges' preference for holistic solutions.
+
+**Wealthify**, built by Kedarnath Rothe during a 24-hour BlackRock hackathon in July 2024, is one of the few projects with a publicly accessible GitHub repository and live demo. Deployed at wealthify01.vercel.app, it provides financial education and management for students through speech-to-text course queries, a top-5 course recommendation engine, WhatsApp integration for personalized suggestions, and a "Call Me" feature for phone-based course explanations. Its multi-channel approach — web, WhatsApp, and phone — demonstrated the kind of user-centric thinking that resonates with judges.
+
+Notable HackKnight participants who have surfaced on LinkedIn include Samruddhi Nande (now Analyst at BlackRock, from Vishwakarma Institute of Information Technology, Pune, who placed in the top 9), Devansh Garg (listed as "BlackRock Hackathon Runner Up" from Thapar Institute, now Software Engineer at Blue Yonder), and Nalin Singhal (listed as a HackKnight 2024 Finalist from Thapar).
+
+## Tech stacks lean toward Python, Java, and AI/ML frameworks
+
+Across all BlackRock hackathon programs, a clear technology pattern emerges. The officially supported languages for Hacking India 2026 are **Java, Python, Go, Rust, C, C++, and .NET**, with Docker containerization now a hard requirement. The most common stacks seen in winning and notable projects break down as follows:
+
+- **AI/ML dominates recent winners**: Smart Sensei used generative AI and large language models; Themantic leveraged NLP on corporate disclosures; FinEdge integrated an AI chatbot; Wealthify used Python's speech recognition library for voice-first UX
+- **Python and Java are the backbone**: Wealthify's backend runs Python; the RoboAdvisor (BlackRock Hackathon Award winner at HackGT 2019) used Node.js with Python scripts; BlackRock CodeSprint solutions on GitHub are in Java
+- **Frontend and deployment**: Vercel for quick deployment (Wealthify), Microsoft Azure (RoboAdvisor), Docker containers (Hacking India 2026 requirement)
+- **BlackRock Aladdin REST API** is the critical differentiator — teams that creatively leveraged Aladdin's proprietary data for risk management, portfolio construction, or intelligent search consistently outperformed
+
+The **RoboAdvisor project** (by team SzechuanTech, 2017), which won the BlackRock Hackathon Award at an external event, offers a candid technical lesson. Built with Node.js on Microsoft Bot Framework and deployed on Azure, it used the Aladdin API to create a risk-profiling chatbot for individual investors. The team noted that Aladdin API documentation was sparse, requiring significant reverse-engineering: "Documentation of a framework or API is nearly as crucial as how well the technology is actually implemented."
+
+## What separates winners from the rest
+
+Synthesizing insights from judges, organizers, and winners across multiple years, several patterns define winning solutions.
+
+**Cross-functional, cross-regional teams consistently outperform.** The 2020 HACK:BLK data is telling: 85% of teams included members from outside their direct team, 50% had members from multiple offices, and 30% spanned geographic regions. Smart Sensei's India-Japan collaboration was central to its success. Mael Pidjou reflected: "The hackathon really proved to me that BlackRock has so many skillful people all over and that it's possible to collaborate with different teams and different regions."
+
+**Production potential matters more than flashiness.** Mimi Narbonne, VP on the Aladdin Engineering COO team and a key organizer, noted that "a lot of times, it's not a flashy project you see in the headlines" — some ideas that didn't win first place have become real businesses within Aladdin. Judges evaluate whether a prototype could realistically scale into a production tool. The 2026 Hacking India event makes this explicit by requiring Docker containerization and production-ready code.
+
+**Domain-specific innovation trumps generic technical prowess.** Winning solutions demonstrate deep understanding of BlackRock's business — Themantic understood how corporate disclosures map to thematic investing, Smart Sensei identified a real pain point in Aladdin data retrieval, and Aladdin Eye targeted the specific workflow of Private Markets analysts. For student hackathons, financial literacy and education themes dominate, and projects that combine financial domain knowledge with creative technology application stand out.
+
+**Judging involves both executive review and democratic voting.** HACK:BLK uses a dual-track system: a Global Operating Committee of senior leaders selects one winner, while the entire firm votes for another. This means winning projects must appeal both to technical experts and to business-side employees who evaluate practical impact.
+
+## Publicly available repositories and resources
+
+The landscape of public artifacts from BlackRock hackathons is limited but growing:
+
+| Resource | URL | Description |
+|----------|-----|-------------|
+| Wealthify (HackKnight 2024) | github.com/Kedarnath-Rothe/BlackRock-Hackathon-2024 | Financial education web app, Python backend, Vercel deploy |
+| Hacking India 2026 submission | github.com/Adish786/hacking-india-2026-blackrock | Java/Maven project, Docker container on port 5477 |
+| RoboAdvisor (BlackRock API Award) | github.com/jamesylgan/RoboAdvisor | Node.js + Python chatbot using Aladdin API |
+| BlackRock CodeSprint solutions | github.com/patilav/hackerrank-solutions/tree/master/blackrock-codesprint | Java solutions for currency-arbitrage and fixed-income allocation |
+| Wave2Web (BlackRock-sponsored) | github.com/H2Oxford | Water availability prediction models for Indian reservoirs |
+| BlackRock Careers Blog — HACK:BLK | careers.blackrock.com/blog-hacking-with-purpose | 2020 hackathon deep-dive with winner details |
+| BlackRock Careers Blog — Smart Sensei | careers.blackrock.com/blog-how-blackrock-hackathon-empowers-employees-innovative | 2023 winner profile and judge insights |
+| Hacking India 2026 event page | hackerrank.com/event/blackrock-hackingindia2026 | Active challenge with full requirements |
+
+No BlackRock hackathons were found on Devpost; HackerRank is the preferred external platform. YouTube content is minimal — no public recordings of HackKnight demos exist, though HACK:BLK finalists create internal video presentations and Hacking India 2026 requires public video submissions.
+
+## Conclusion
+
+BlackRock's hackathon ecosystem in India has matured from a single internal innovation event into a three-tier pipeline spanning students, employees, and experienced professionals. The through-line across all programs is **Aladdin platform fluency** — teams that demonstrate creative command of BlackRock's proprietary technology stack consistently rise to the top. The shift toward generative AI since 2023 (Smart Sensei's win marked a turning point) and the increasing emphasis on production-readiness (Docker requirements, containerized deployments) signal where future winning solutions will need to compete. For aspiring participants, the clearest strategic advantage is combining deep financial domain knowledge with emerging AI capabilities, assembling diverse cross-functional teams, and building prototypes that solve real operational pain points rather than impressive-but-impractical demos. India's outsized contribution — nearly half of all ideas in recent HACK:BLK editions — suggests the country's teams have already internalized these lessons.
+
+
+
+# BlackRock Hacking India 2026: complete competitive intelligence briefing
+
+**The "BlackRock Hackathon — Hacking India '26" is a first-of-its-kind external hiring hackathon happening right now (February 21, 2026), and almost zero public intelligence exists about it yet.** This is a 7-hour coding challenge hosted on HackerRank Engage, themed "Building Sustainable Financial Well-Being," targeting experienced engineers with 3–7 years of experience in India. The challenge requires a Dockerized application on **port 5477**, a public Git repository, and a 3–5 minute video demo. After exhaustive searches across GitHub, HackerRank, LinkedIn, Reddit, Twitter/X, Medium, Dev.to, YouTube, Discord, Telegram, Glassdoor, Blind, Unstop, Devfolio, and GeeksforGeeks — using dozens of query variations — the public information landscape is remarkably thin. Only **one GitHub submission repo** and the **official HackerRank event page** constitute the entirety of discoverable public artifacts. The actual problem statement has not leaked publicly; the "retirement micro-savings API" framing appears to be known only to registered participants.
+
+---
+
+## What the official event page reveals
+
+The canonical source is the HackerRank Engage page at `hackerrank.com/event/blackrock-hackingindia2026`. Registration closed on **February 18, 2026 at 6:30 PM GMT**. The event unfolded in two phases: a virtual fireside chat on February 20 (8:30–10:00 AM GMT) hosted by **senior Aladdin leaders** covering the challenge details, expectations, and judging criteria, followed by the coding challenge launching **February 21 at 4:30 AM GMT** with a strict **7-hour window** and a login cutoff at 7:30 AM GMT.
+
+The submission requirements are unusually rigorous for a hackathon: participants must provide (1) a **public Git repository** on GitHub, GitLab, or Bitbucket containing source code, a README, and a Dockerfile; (2) a **Docker container image** on Docker Hub or GitHub Container Registry that runs on **port 5477**; (3) a **video demonstration** of 3–5 minutes uploaded to YouTube or Vimeo; and (4) all links must be publicly accessible without authentication. The allowed languages are **Java, Python, Go, Rust, C, C++, or .NET**. Rewards include interview opportunities with BlackRock for the winner, first runner-up, and second runner-up, plus gift cards and BlackRock merchandise — making this explicitly a **recruitment pipeline**, not a prize-money competition.
+
+The event page never mentions "retirement micro-savings API" specifically. The public-facing theme is **"Building Sustainable Financial Well-Being"** with emphasis on capital markets, wealth creation insights, and building "user-friendly apps." The specific problem statement was revealed only to registered participants during the fireside chat and coding window.
+
+---
+
+## The lone GitHub submission is a Java/Spring Boot template
+
+After searching GitHub with over 12 distinct query variations — including `"blk-hacking-ind"`, `"port 5477" blackrock`, `"hackingindia2026"`, `"hacking-india-2026"`, and `retirement micro-savings API blackrock` — only **one repository** was found: [`Adish786/hacking-india-2026-blackrock`](https://github.com/Adish786/hacking-india-2026-blackrock).
+
+The repo's tech profile: **Java (58%)** and **Dockerfile (42%)**, using **Spring Boot** with **Maven** as the build system. The project structure includes `.mvn/wrapper/`, `src/`, `pom.xml`, `mvnw`/`mvnw.cmd`, and a `Dockerfile` at root. Port 5477 is configured in the Docker run command. However, this is clearly a **template or scaffold**, not a completed solution — the README's problem statement section reads "[Briefly describe the problem you are solving and why it matters in capital markets.]" as placeholder text. The repo has **one commit, zero stars, zero forks**, and a single contributor. No API endpoints, database configuration, or detailed architecture are documented. The quality assessment: **incomplete boilerplate**, likely pushed early as a starting scaffold before the challenge began.
+
+No other participant repositories were found. This is expected — the challenge is literally underway today, and most participants haven't pushed their solutions yet. Since submissions require public repos, **dozens of repositories should become discoverable within the next 24–48 hours**.
+
+---
+
+## Social media and community discussions are virtually nonexistent
+
+An exhaustive sweep across every major platform yielded nearly zero results specific to Hacking India 2026:
+
+- **LinkedIn**: Seven targeted searches including `site:linkedin.com "blackrock hacking india 2026"` — zero results. The only tangentially related finding was **Samruddhi Nande**, a BlackRock analyst whose profile mentions participating in "BlackRock Hackathon HackKnight-2k24" (a separate 2024 campus event where her team placed top 9).
+- **Reddit**: Six searches across r/developersIndia, r/india, r/cscareerquestions, and general subreddits — zero results.
+- **Twitter/X**: Four searches — zero results (results were polluted by an unrelated Android malware called "BlackRock").
+- **Medium, Dev.to, Hashnode, Substack**: Eight blog-specific searches — zero results.
+- **YouTube**: Three searches — zero video walkthroughs or demos exist yet.
+- **Discord/Telegram**: Five community-oriented searches — zero results.
+- **Glassdoor/Blind**: Four searches — no specific discussions. TeamBlind has general BlackRock HackerRank test discussions (mentioning LC-style problems, 48-hour coding tests) but nothing about Hacking India 2026.
+- **Unstop/Devfolio/Devpost**: Not listed on any hackathon aggregator platform. The event is **exclusively on HackerRank Engage**.
+- **GeeksforGeeks/LeetCode/Naukri**: Zero results for the 2026 hackathon specifically.
+- **Instagram**: A page exists at `instagram.com/popular/blackrock-hackathon-2026/` but content is inaccessible.
+
+The silence makes sense: registration closed only **3 days ago**, the fireside chat was **yesterday**, and the coding challenge is **happening right now**. This is also a targeted recruitment hackathon for experienced professionals (not students), who tend to post less on social media about hiring processes.
+
+---
+
+## This is the first "Hacking India" edition — but BlackRock has deep hackathon DNA
+
+Extensive searches for previous editions — "blackrock hacking india 2025," "blackrock hacking india 2024," "blk-hacking-ind 2024/2025," "hackingindia2025" — all returned **zero results**. This strongly suggests **2026 is the inaugural edition** of this external hiring hackathon for experienced engineers in India.
+
+However, BlackRock runs a rich ecosystem of hackathon programs:
+
+- **HACK:BLK** (2014–present): BlackRock's annual internal firm-wide hackathon, now in its 10th+ year. The 2023 winner was **"Smart Sensei"** — a GenAI-powered tool for searching Aladdin's database, built by a cross-regional team including **three members from India** and one from Tokyo. The 2020 edition drew **1,200 participants** and 192 cross-regional teams. Crucially, some HACK:BLK projects have become real products — **Aladdin Wealth** originated from a past hackathon.
+- **HackKnight 2024**: A 24-hour in-person campus hackathon at **VIT Pune** and **Thapar Institute**, with **440 participants** across 110 teams producing 108 working prototypes. Seven winning teams were selected.
+- **BlackRock CodeSprint (2016)**: An earlier HackerRank-hosted global competition with 48-hour format, 8 algorithmic challenges, and Amazon gift card prizes ($2,000/$1,000/$500 for top 3).
+- **Campus Hackathon (July 2024)**: Produced projects like "Wealthify" — a financial education web app using Python, speech recognition, and WhatsApp API integration.
+
+The pattern is clear: BlackRock uses hackathons systematically for both internal innovation and external talent acquisition, with India playing a **central role** in their strategy.
+
+---
+
+## Aladdin tech stack offers clues about what BlackRock values
+
+Since the fireside chat prominently featured **senior Aladdin leaders** and the event page emphasizes BlackRock's Aladdin platform, understanding Aladdin's architecture provides strategic context for what evaluators likely value.
+
+Aladdin's confirmed tech stack includes **Java** (primary language), **Python**, **Hadoop**, **Snowflake**, **Cassandra**, **Solr**, **Spark**, **Docker**, **Kubernetes**, and deployment on **Microsoft Azure** (Ultra Disk Storage, AKS, Cosmos DB, Redis, Azure OpenAI). The AI layer uses **LangChain + LangGraph** with **GPT-4** function calling for Aladdin Copilot. Infrastructure uses **Jenkins**, **GitHub Actions**, **ArgoCD** for CI/CD and **Terraform** for IaC. BlackRock maintains an open-source **Aladdin SDK** on GitHub (`github.com/blackrock/aladdinsdk`) — a Python SDK for integrating with Aladdin APIs supporting OAuth and plugin architecture for trading, investment research, and accounting.
+
+BlackRock's engineering hiring signals from LeetCode and GeeksforGeeks interview reports emphasize **OOP design**, **multithreading**, **distributed systems**, **Kafka**, **Spring Boot**, and **REST API design**. The Hacking India challenge — requiring a Dockerized API on a specific port with a public repo and video demo — aligns with BlackRock's emphasis on **production-ready, containerized microservices**.
+
+---
+
+## Strategic recommendations for the participant
+
+Given the near-total absence of public solutions and the challenge being underway right now, here is what the available intelligence suggests:
+
+**Tech stack choice matters.** Java with Spring Boot is the most aligned with BlackRock's Aladdin ecosystem and is what the only visible submission template uses. Python (Flask/FastAPI) would be the fastest for prototyping within a 7-hour window. Go and Rust signal systems-level competence but may slow development speed. The safest bet for impressing BlackRock evaluators is likely **Java/Spring Boot** or **Python/FastAPI** — both are first-class citizens in Aladdin's stack.
+
+**The video demo is a differentiator.** With every submission requiring a 3–5 minute public video, this is where polish separates winners from participants. Clear narration of architecture decisions, a working demo of API endpoints, and explanation of trade-offs will matter more than raw code volume.
+
+**Production-readiness signals score points.** The submission requires a Dockerfile, a README, and a public repo — BlackRock is evaluating engineering maturity, not just algorithmic ability. Clean code structure, proper error handling, API documentation (Swagger/OpenAPI), health check endpoints, logging, and a well-written README will differentiate solutions. The Adish786 template's placeholder text shows what *not* to do.
+
+**"Sustainable Financial Well-Being" is the lens.** Every design decision should connect back to this theme. If the challenge involves a retirement micro-savings API, framing features around financial inclusion, compound growth visualization, or behavioral nudges toward saving would align with BlackRock's stated mission of helping "more and more people experience financial well-being."
+
+**Watch for repos in 24–48 hours.** Since all submissions must be in public repositories, the competitive intelligence landscape will change dramatically within days. Searching GitHub for `"hacking-india-2026"`, `"hackingindia2026"`, and `"port 5477" blackrock` after the submission deadline will surface dozens of solutions with their full tech stacks, approaches, and video demos.
+
+---
+
+## Conclusion
+
+BlackRock Hacking India 2026 is an inaugural, recruitment-focused hackathon with an unusually high submission bar — Dockerized application, public repo, and video demo within 7 hours. The public intelligence landscape is currently near-zero because the event is literally in progress today. The single GitHub repo found is an incomplete Java/Spring Boot template. No social media discussions, blog posts, or video walkthroughs exist yet on any platform searched. The strategic takeaway: **this is a production-engineering assessment disguised as a hackathon**, where BlackRock is evaluating candidates' ability to ship a clean, containerized, well-documented API under time pressure — skills that directly mirror what Aladdin engineering teams need daily. Participants who treat this as a software engineering demonstration rather than a coding competition will likely perform best.
+
+# BlackRock hackathon winners: every project, tech stack, and winning pattern decoded
+
+**Aladdin Wealth — now a $1B+ annual revenue business — started as a HACK:BLK hackathon project around 2018, making it the single most successful hackathon-to-product conversion in BlackRock's history.** Across BlackRock's internal HACK:BLK events, external HackKnight series, and sponsored prizes at collegiate hackathons, a clear pattern emerges: winning projects solve universal pain points with working prototypes that leverage AI/ML on top of Aladdin's data infrastructure. This research covers **6 confirmed HACK:BLK winners, 4 confirmed external prize winners, and 5+ additional notable projects** with full technical details, code repos, and architecture decisions.
+
+BlackRock runs two distinct hackathon tracks: the internal **HACK:BLK** (started ~2015, 10th anniversary in 2024) for all employees globally, and external events including **HackKnight** (India campus recruitment), **Hacking India** (HackerRank), sponsored API prizes at collegiate hackathons (HackGT, CalHacks, UGAHacks, HackKings), and regional events (Budapest, Milan). The internal HACK:BLK winners are selected through a combination of Global Operating Committee (GOC) votes by senior leaders and firm-wide employee voting, while external events typically judge based on working prototypes and innovative use of BlackRock's Aladdin API.
+
+---
+
+## The crown jewel: Aladdin Wealth went from hackathon to billion-dollar product
+
+**Aladdin Wealth** originated from a HACK:BLK hackathon around 2017–2018 and represents BlackRock's most dramatic hackathon success story. A BlackRock job posting confirmed: "Aladdin Wealth was born three years ago as a BlackRock hackathon project and has rapidly expanded as a product used by some of the largest wealth managers in the world." The platform enables wealth managers to accelerate growth, drive advisor efficiency through connected digital systems, and personalize client portfolios with risk oversight, model management, scaled portfolio rebalancing, and next-best-action recommendations. Clients now include **Citi, Morgan Stanley, and Allianz Bank**. The Aladdin WealthTech unit generates approximately **$1 billion in annual revenue**. No public code exists — it's a fully commercial enterprise product — but a job listing noted: "You will be working with some of the original participants in the hackathon."
+
+**BLK4U (BlackRock for Universities)** is the second major hackathon-to-real-world success. **Sam Konigsberg**, Director in U.S. Wealth Advisory (Atlanta), pitched the concept at the 2020 HACK:BLK. He had noticed that university Student-Managed Investment Funds (SMIFs) lacked access to professional tools — some used Bloomberg Terminal, others just Excel. BLK4U became a four-week course teaching students to use Aladdin's 360 Evaluator Tool for portfolio construction, with each weekly session taught by a different BlackRock employee. With **Marc Balizer** (Managing Director, Aladdin Atlanta) as sponsor and **Emiere Scaife** expanding it to HBCUs (Morehouse, Spelman, Winston-Salem State, Hampton), the program now operates at **45 schools across the U.S. and Europe**. This is notable because it won not as a technology product but as an educational program — proof that HACK:BLK judges value real-world impact over technical sophistication alone.
+
+---
+
+## HACK:BLK internal winners from 2020–2023 share an AI-first DNA
+
+### Themantic (2020 — firm-wide vote winner)
+
+Themantic harnessed **state-of-the-art NLP to process corporate disclosures** (10-Ks, annual reports) and automatically create thematic portfolios aligned with investor values — sustainability, growth, robotics, education. The innovation was making thematic portfolio construction systematic and scalable rather than manual. It won the firm-wide employee vote during the first fully remote HACK:BLK (COVID-19), which attracted **1,200 participants submitting 500 ideas**. The 2020 hackathon introduced dual judging tracks for the first time: the GOC senior leadership vote and the all-employee vote. Themantic aligned perfectly with BlackRock's "tech2025" goals around using data for better portfolios, and the growing market demand for ESG/thematic investing. No public code exists (internal project), but the architecture was an AI-driven document processing pipeline mapping companies to thematic criteria at scale.
+
+### Aladdin Eye (2020 — GOC favorite)
+
+The second 2020 winner, chosen by BlackRock's Global Operating Committee of senior leaders, was **Aladdin Eye** — a flexible, scalable platform for performing search tasks and visualizing results intuitively for financial analysts. Its killer application was extracting insights from **Private Markets documents** that were never before available for investing and due diligence. The architecture combined search technology, NLP-based document intelligence, and data visualization tailored for analyst workflows. While not publicly confirmed as productized, BlackRock subsequently expanded Private Markets capabilities significantly (acquiring eFront, launching pre-investment analytics), suggesting Aladdin Eye's direction influenced the roadmap.
+
+### Bee BlackRock (2021 — Belgrade team)
+
+The 2021 winner was **Bee BlackRock**, built by a six-person team from BlackRock's Belgrade, Serbia office: **Tanja Babic, Dimitrije Veljkovic, Filip Cordas, Gordana Pejic, Kristina Stanojevic, and Nenad Nikolic**. It was a **mobile platform using gamification** to encourage employees to achieve sustainable goals — decreasing carbon footprints and promoting diversity, equity, and inclusion. Gordana explained: "We thought we could make something all of us could use." The project became real: BlackRock partnered with its SustainaBLK network to implement a **Net Zero challenge app** for all employees. A video titled "Advancing Sustainability | 2021 Hackathon" was published on BlackRock's YouTube (ID: Js9qq9KtqsA). The sustainability theme dominated 2021, and Bee BlackRock won because it combined a universal use case with engaging gamification mechanics.
+
+### Smart Sensei (2023 — overall winner)
+
+The most recent confirmed winner, **Smart Sensei**, used **generative AI and large language models** to search Aladdin's database more efficiently. Led by **Mael Pidjou**, an Associate on the Aladdin Client Business team in Tokyo (only 6 months into his role when he pitched the idea), the team of six spanned Japan and India:
+
+- Three members from Tokyo (inspiring the "Sensei" name)
+- Three colleagues from India
+- An Analyst who studied ML in college
+- Two engineers expert in machine learning and language models
+- A Director providing project management experience
+
+The 2023 theme was **"Operational Excellence"** — the broadest ever, generating the most submissions in HACK:BLK history. Smart Sensei won because it addressed a pain point everyone recognized: "Almost every person I had discussed my problem with said it was a pain point for them, too." Post-hackathon, the use case "caught the eyes of an AI team in London," and Mael was collaborating toward beta testing. The tech stack centered on generative AI/LLMs applied to Aladdin's internal data infrastructure — essentially a ChatGPT-style interface for investment management data. No public repo exists, but the architecture was a natural-language search interface layered over Aladdin's data reservoirs.
+
+---
+
+## External hackathon winners reveal what BlackRock judges reward at collegiate events
+
+Four confirmed external prize winners have public GitHub repositories, offering direct insight into winning technical approaches:
+
+**STRAT / RoboAdvisor (HackGT ~2017, "BlackRock Hackathon Award")** — Built by team SzechuanTech led by **James Gan** (Cornell senior). A chatbot bringing professional risk management to individual investors via personality-based risk profiling. Tech stack: **Node.js (Microsoft Bot Framework), Python backend scripts, BlackRock Aladdin REST API, Microsoft Azure hosting**, integrated with Slack/Messenger/Skype. The bot asks personality questions to calculate a risk score (0–1), then Python scripts fetch security data and risk metrics from the Aladdin API to generate personalized recommendations. The team noted API documentation was sparse: "Definitions of the terms on the Aladdin API were few and far between, so we had to do a fair bit of research." Repo: github.com/jamesylgan/RoboAdvisor (21 stars, MIT license, 106 commits). Devpost: devpost.com/software/szechuantech.
+
+**Portfolio Optimizer (HackGT 2019, "1st Place, Best Use of BlackRock's API")** — Built by the antm team (GitHub: Piejak/antm-hackgt-2019). A web app providing **Sharpe ratio-optimized portfolio allocation** based on user risk tolerance and investment time horizon. Tech stack: **React, JavaScript**, with BlackRock's Aladdin API for financial data. The core innovation was automating professional-grade portfolio optimization math (Sharpe ratio maximization) in an accessible web interface. Repo: github.com/Piejak/antm-hackgt-2019 (3 stars).
+
+**br-pdv (CalHacks 6.0, "BlackRock API Prize")** — Built by **Richard Zhu** (github.com/richardszhu/br-pdv). A portfolio diversity visualization tool using **Python and MatPlotLib**. It queried BlackRock's Aladdin API to analyze portfolio diversity across security attributes (Industry, Sector, Country, Asset Type) and generated visual charts. Key files: `portfolio.py`, `vis.py`, `vis_notebook.ipynb`. Notable caveat: "Unfortunately, it can no longer be demoed as BlackRock has since closed off the API from the public." Repo has 4 stars and 89 commits.
+
+**Mo-Choo (HackKings 2022, "Winner, BlackRock Technical Challenge")** — Built by **Kenza Amira** and team at King's College London. An augmented reality touchless interface for healthcare workers, using **Python, OpenCV, Google MediaPipe Hands, and TensorFlow** for hand gesture recognition. Recognizes 9 gestures (okay, stop, peace, call me, fist, rock, smile, thumbs up, thumbs down) to allow nurses to interact with screens without removing gloves — addressing healthcare worker burnout (23–46% anxiety, 21–37% depression per WHO). The BlackRock challenge prompt asked teams to explore how cutting-edge tech could be applied to finance and social good, including social media for microfinancing and blockchain for supply chain tracing. Repo: github.com/kenza-amira/HackKings2022_Mo-Choo.
+
+---
+
+## Regional BlackRock hackathons and HackKnight India round out the picture
+
+**HackKnight** is BlackRock India's external recruitment hackathon — a 24-hour in-person event targeting college students. The 2024 edition hosted **440 participants across 110 teams** at VIT Pune and Thapar Institute, producing **108 working prototypes** and selecting **7 winners** (4 at VIT, 3 at Thapar). **Samruddhi Nande** (VIT Pune) secured a top-9 position and later joined BlackRock as an Analyst. **Nalin Singhal** (Thapar) was a 2024 finalist. Known project types include trading dashboards, real-time stock analysis tools, and gamified financial learning ("FinGames"). **FinEdge** from HackKnight 2023 (Thapar), built by Jaskirat Singh, Arunain Mahant, Jahanavi Khattar, and Govind, featured an AI chatbot, knowledge hub, trading dashboard, and gamified learning — though its winner status is unconfirmed.
+
+**Wealthify** (BlackRock Hackathon July 2024, by **Kedarnath Rothe**, MERN developer at VIIT Pune) is a financial education platform for students with speech-to-text course search, WhatsApp integration, and a "Call Me" phone explanation feature. Live demo at wealthify01.vercel.app. Repo: github.com/Kedarnath-Rothe/BlackRock-Hackathon-2024. Winner status unconfirmed.
+
+The **Budapest hackathon** (with Design Terminal) challenged teams to build spending-consciousness tools in 24 hours. The **wishIhad** project by the Webabstract team (2 designers, 2 developers, 1 marketing manager) created an app importing bank data, visualizing spending by category, setting budget limits, and tracking savings goals. The **Milan Digital Week hackathon** (~2020) aligned with UN SDG #13 (Climate Action), challenging teams to build big-data tools for environmentally informed investment decisions — won by a three-person Politecnico di Milano team (Mattia, Stefano, and one other).
+
+**Hacking India 2026** (the current hackathon) runs on HackerRank with theme "Building Sustainable Financial Well-Being." Requirements: **public Git repo with README + Dockerfile, Docker container running on port 5477**, languages include Java, Python, Go, Rust, C, C++, .NET.
+
+---
+
+## BlackRock CodeSprint problems and their algorithmic solutions
+
+The **BlackRock CodeSprint** ran on HackerRank in June 2016 as a 48-hour individual competition with 8 problems. Prizes were Amazon gift cards ($2,000/$1,000/$500 for top 3). The most complete solution set is at github.com/bzliu94/blackrock (Python/Java):
+
+| Problem | Points | Algorithm | Key Technique |
+|---------|--------|-----------|---------------|
+| Currency Arbitrage | 10 | Graph-based arbitrage detection | Bellman-Ford on log-transformed exchange rates |
+| Fixed-Income Trade Allocation | 20 | Greedy allocation | Fair distribution leaving no untradeable amounts |
+| Portfolio Manager | — | Tree DP | Max independent set sum on binary tree (10⁶ nodes) |
+| Employee Stock Grants | 50 | Topological ordering | Fair stock distribution via DAG traversal |
+| Audit Sale | 60 | Heap + DP | Dynamic programming for optimal divider location |
+| Trade Analysis | 60 | Calculus + DP | Induction-provable correctness |
+| Perfect Separating | 80 | DP + bit vectors | Subsequence matching with complements |
+
+Additional solution repos: patilav/hackerrank-solutions (Java — currency-arbitrage, fixed-income), MaskRay/HackerRank (Rust — currency-arbitrage), andrewj314/BlackRock-Codesprint (C++ — Problem 2).
+
+---
+
+## What actually wins: the pattern across all BlackRock hackathons
+
+Synthesizing every confirmed winner reveals **six consistent differentiators**:
+
+- **Universal pain points beat niche innovations.** Smart Sensei won because "almost every person said it was a pain point." Aladdin Wealth succeeded because every wealth manager needed the tool. Build something everyone recognizes as solving their daily frustration.
+- **Working prototypes are mandatory.** Organizer Mimi Narbonne stated explicitly: "In the end, you need a working prototype." Every winner delivered functional demos, not slide decks. For HACK:BLK, finalists create video presentations of working software.
+- **Cross-regional, cross-functional teams win disproportionately.** In 2020, 85% of teams included members from outside their direct team, 50% spanned offices, 30% spanned regions. Smart Sensei's Japan-India team, Bee BlackRock's Belgrade squad, and BLK4U's Atlanta team all demonstrated "One BlackRock" collaboration.
+- **Alignment with firm strategy is table stakes.** Themantic aligned with ESG/thematic investing demand. Smart Sensei aligned with AI democratization. Bee BlackRock aligned with net-zero goals. Every winner mapped to the year's strategic theme (sustainability, operational excellence, tech2025).
+- **Productization potential matters enormously.** Judges and the GOC evaluate whether a project could become a real product. Aladdin Wealth, BLK4U, and Bee BlackRock all became real. Mimi Narbonne noted: "The team didn't come in first place, but their idea is now a real business."
+- **AI/ML is the dominant winning technology.** Themantic (NLP), Smart Sensei (GenAI/LLM), Aladdin Eye (document intelligence), and most external winners used AI. For the current Hacking India 2026, this means AI-driven solutions for sustainable financial well-being will have a structural advantage.
+
+## Conclusion
+
+The strongest signal from this research is that **BlackRock hackathon winners are not technically exotic — they are technically sound solutions to universally recognized problems.** Aladdin Wealth didn't win with novel algorithms; it won by making institutional-grade portfolio management accessible to wealth managers. Smart Sensei didn't invent new AI; it applied existing GenAI to a search problem everyone hated. The winning formula is: identify a widespread pain point → build a working prototype that leverages AI/ML on Aladdin's data → form a cross-functional team → align the narrative to BlackRock's current strategic priorities → demonstrate clear productization potential. For the current Hacking India 2026 ("Building Sustainable Financial Well-Being"), this means the winning project will likely combine AI-driven personalization with retirement/savings optimization, delivered in a Dockerized container on port 5477, with a compelling 3–5 minute demo video showing real user impact.
