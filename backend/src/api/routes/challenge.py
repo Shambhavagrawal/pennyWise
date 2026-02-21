@@ -7,10 +7,13 @@ from src.models.challenge import (
     FilterOutput,
     ParsedTransaction,
     PerformanceOutput,
+    ReturnsInput,
+    ReturnsOutput,
     ValidatorInput,
     ValidatorOutput,
 )
 from src.services.performance_service import get_performance_metrics
+from src.services.returns_service import compute_nps_returns
 from src.services.transaction_service import (
     filter_transactions,
     parse_transactions,
@@ -33,6 +36,11 @@ async def transactions_validator(payload: ValidatorInput):
 @router.post("/transactions:filter", response_model=FilterOutput)
 async def transactions_filter(payload: FilterInput):
     return filter_transactions(payload)
+
+
+@router.post("/returns:nps", response_model=ReturnsOutput)
+async def returns_nps(payload: ReturnsInput):
+    return compute_nps_returns(payload)
 
 
 @router.get("/performance", response_model=PerformanceOutput)

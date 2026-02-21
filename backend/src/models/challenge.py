@@ -90,6 +90,30 @@ class FilterOutput(BaseModel):
     invalid: list[FilterInvalidTransaction]
 
 
+class ReturnsInput(BaseModel):
+    age: int
+    wage: float
+    inflation: float
+    q: list[QPeriod]
+    p: list[PPeriod]
+    k: list[KPeriod]
+    transactions: list[ExpenseInput]
+
+
+class SavingsByDate(BaseModel):
+    start: str
+    end: str
+    amount: float
+    profit: float
+    taxBenefit: float  # noqa: N815
+
+
+class ReturnsOutput(BaseModel):
+    totalTransactionAmount: float  # noqa: N815
+    totalCeiling: float  # noqa: N815
+    savingsByDates: list[SavingsByDate]  # noqa: N815
+
+
 def compute_ceiling(amount: float) -> float:
     return float(math.ceil(amount / 100) * 100)
 
