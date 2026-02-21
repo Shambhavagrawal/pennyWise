@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ExpenseForm from "@/components/demo/ExpenseForm";
 import ParseResultsTable from "@/components/demo/ParseResultsTable";
+import PerformanceMonitor from "@/components/demo/PerformanceMonitor";
 import ReturnsComparison from "@/components/demo/ReturnsComparison";
 import SummaryCard from "@/components/demo/SummaryCard";
 
@@ -107,6 +108,10 @@ export default function Home() {
         <hr className="border-zinc-200" />
 
         <ReturnsComparison expenses={expenses} />
+
+        <hr className="border-zinc-200" />
+
+        <PerformanceMonitor />
       </main>
     </div>
   );
