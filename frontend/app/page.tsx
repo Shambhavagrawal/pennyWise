@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ExpenseForm from "@/components/demo/ExpenseForm";
 import ParseResultsTable from "@/components/demo/ParseResultsTable";
+import ReturnsComparison from "@/components/demo/ReturnsComparison";
 import SummaryCard from "@/components/demo/SummaryCard";
 
 interface Expense {
@@ -102,6 +103,10 @@ export default function Home() {
             <ParseResultsTable results={results} />
           </>
         )}
+
+        <hr className="border-zinc-200" />
+
+        <ReturnsComparison expenses={expenses} />
       </main>
     </div>
   );
