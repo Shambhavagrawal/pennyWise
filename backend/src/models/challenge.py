@@ -40,6 +40,12 @@ class ValidatorOutput(BaseModel):
     invalid: list[InvalidTransaction]
 
 
+class PerformanceOutput(BaseModel):
+    time: str
+    memory: str
+    threads: int
+
+
 def compute_ceiling(amount: float) -> float:
     return float(math.ceil(amount / 100) * 100)
 

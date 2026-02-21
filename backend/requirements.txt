@@ -4,3 +4,4 @@ sqlmodel
 asyncpg
 alembic
 pydantic-settings
+psutil
