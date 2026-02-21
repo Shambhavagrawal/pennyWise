@@ -1,11 +1,201 @@
 {
   "metadata": {
-    "total_items": 0,
+    "total_items": 12,
     "completed": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "blocked": 0,
-    "last_updated": null
+    "last_updated": "2026-02-21T09:56:20.199226+00:00"
   },
   "milestones": {},
-  "work_items": {}
+  "work_items": {
+    "feature_transaction_parser_endpoint": {
+      "id": "feature_transaction_parser_endpoint",
+      "type": "feature",
+      "title": "Transaction Parser Endpoint",
+      "status": "in_progress",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_transaction_parser_endpoint.md",
+      "created_at": "2026-02-21T09:45:48.485760+00:00",
+      "sessions": []
+    },
+    "feature_transaction_validator_endpoint": {
+      "id": "feature_transaction_validator_endpoint",
+      "type": "feature",
+      "title": "Transaction Validator Endpoint",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_transaction_validator_endpoint.md",
+      "created_at": "2026-02-21T09:45:56.291671+00:00",
+      "sessions": []
+    },
+    "feature_temporal_constraints_filter_endp": {
+      "id": "feature_temporal_constraints_filter_endp",
+      "type": "feature",
+      "title": "Temporal Constraints Filter Endpoint",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [
+        "feature_transaction_parser_endpoint",
+        "feature_transaction_validator_endpoint"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_temporal_constraints_filter_endp.md",
+      "created_at": "2026-02-21T09:46:04.657614+00:00",
+      "sessions": []
+    },
+    "feature_nps_returns_calculator_endpoint": {
+      "id": "feature_nps_returns_calculator_endpoint",
+      "type": "feature",
+      "title": "NPS Returns Calculator Endpoint",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [
+        "feature_temporal_constraints_filter_endp"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_nps_returns_calculator_endpoint.md",
+      "created_at": "2026-02-21T09:46:11.649563+00:00",
+      "sessions": []
+    },
+    "feature_index_fund_returns_calculator_en": {
+      "id": "feature_index_fund_returns_calculator_en",
+      "type": "feature",
+      "title": "Index Fund Returns Calculator Endpoint",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [
+        "feature_nps_returns_calculator_endpoint"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_index_fund_returns_calculator_en.md",
+      "created_at": "2026-02-21T09:46:59.380218+00:00",
+      "sessions": []
+    },
+    "feature_performance_report_endpoint": {
+      "id": "feature_performance_report_endpoint",
+      "type": "feature",
+      "title": "Performance Report Endpoint",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_performance_report_endpoint.md",
+      "created_at": "2026-02-21T09:47:04.791345+00:00",
+      "sessions": []
+    },
+    "deployment_challenge_dockerfile": {
+      "id": "deployment_challenge_dockerfile",
+      "type": "deployment",
+      "title": "Challenge Dockerfile",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [
+        "feature_transaction_parser_endpoint",
+        "feature_transaction_validator_endpoint",
+        "feature_temporal_constraints_filter_endp",
+        "feature_nps_returns_calculator_endpoint",
+        "feature_index_fund_returns_calculator_en",
+        "feature_performance_report_endpoint"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\deployment_challenge_dockerfile.md",
+      "created_at": "2026-02-21T09:47:10.768917+00:00",
+      "sessions": []
+    },
+    "integration_test_challenge_test_suite": {
+      "id": "integration_test_challenge_test_suite",
+      "type": "integration_test",
+      "title": "Challenge Test Suite",
+      "status": "not_started",
+      "priority": "critical",
+      "urgent": false,
+      "dependencies": [
+        "feature_transaction_parser_endpoint",
+        "feature_transaction_validator_endpoint",
+        "feature_temporal_constraints_filter_endp",
+        "feature_nps_returns_calculator_endpoint",
+        "feature_index_fund_returns_calculator_en",
+        "feature_performance_report_endpoint"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\integration_test_challenge_test_suite.md",
+      "created_at": "2026-02-21T09:47:16.610505+00:00",
+      "sessions": []
+    },
+    "feature_readme_and_api_documentation": {
+      "id": "feature_readme_and_api_documentation",
+      "type": "feature",
+      "title": "README and API Documentation",
+      "status": "not_started",
+      "priority": "high",
+      "urgent": false,
+      "dependencies": [
+        "deployment_challenge_dockerfile",
+        "integration_test_challenge_test_suite"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_readme_and_api_documentation.md",
+      "created_at": "2026-02-21T09:47:22.845231+00:00",
+      "sessions": []
+    },
+    "feature_demo_dashboard_expense_round_up_": {
+      "id": "feature_demo_dashboard_expense_round_up_",
+      "type": "feature",
+      "title": "Demo Dashboard - Expense Round-Up Visualizer",
+      "status": "not_started",
+      "priority": "high",
+      "urgent": false,
+      "dependencies": [
+        "feature_transaction_parser_endpoint"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_demo_dashboard_expense_round_up_.md",
+      "created_at": "2026-02-21T09:47:29.790919+00:00",
+      "sessions": []
+    },
+    "feature_demo_dashboard_nps_vs_index_fund": {
+      "id": "feature_demo_dashboard_nps_vs_index_fund",
+      "type": "feature",
+      "title": "Demo Dashboard - NPS vs Index Fund Comparison",
+      "status": "not_started",
+      "priority": "high",
+      "urgent": false,
+      "dependencies": [
+        "feature_nps_returns_calculator_endpoint",
+        "feature_index_fund_returns_calculator_en",
+        "feature_demo_dashboard_expense_round_up_"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_demo_dashboard_nps_vs_index_fund.md",
+      "created_at": "2026-02-21T09:47:36.687970+00:00",
+      "sessions": []
+    },
+    "feature_demo_dashboard_performance_monit": {
+      "id": "feature_demo_dashboard_performance_monit",
+      "type": "feature",
+      "title": "Demo Dashboard - Performance Monitor Widget",
+      "status": "not_started",
+      "priority": "medium",
+      "urgent": false,
+      "dependencies": [
+        "feature_performance_report_endpoint",
+        "feature_demo_dashboard_expense_round_up_"
+      ],
+      "milestone": "",
+      "spec_file": ".session\\specs\\feature_demo_dashboard_performance_monit.md",
+      "created_at": "2026-02-21T09:47:46.452711+00:00",
+      "sessions": []
+    }
+  }
 }

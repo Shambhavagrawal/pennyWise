@@ -1,14 +1,16 @@
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.routes.challenge import router as challenge_router
 from src.core.config import settings
 
 app = FastAPI(
-    title="API",
+    title="PennyWise API",
+    description="Automated retirement savings through expense-based micro-investments",
     debug=settings.DEBUG,
-    docs_url="/docs" if settings.ENVIRONMENT != "production" else None,
-    redoc_url="/redoc" if settings.ENVIRONMENT != "production" else None,
-    openapi_url="/openapi.json" if settings.ENVIRONMENT != "production" else None,
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
 )
 
 app.add_middleware(
@@ -23,6 +25,9 @@ app.add_middleware(
 api_router = APIRouter(prefix="/api")
 # Example: api_router.include_router(users.router)
 app.include_router(api_router)
+
+# Challenge routes (no /api prefix — spec requires /blackrock/challenge/v1/...)
+app.include_router(challenge_router)
 
 
 # Health check at root (nginx routes /health directly to backend)

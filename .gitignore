@@ -35,6 +35,12 @@ frontend/.env.*
 .session/tracking/status_update.json
 .session/history/
 
+# Claude Code
+.claude/
+
+# Coverage artifacts
+coverage.xml
+
 # OS
 .DS_Store
 Thumbs.db
