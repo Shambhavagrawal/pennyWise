@@ -1,0 +1,17 @@
+**/__pycache__
+**/.pytest_cache
+**/.venv
+**/venv
+**/node_modules
+**/.next
+**/htmlcov
+**/*.pyc
+.git
+.session
+evidence
+frontend
+docs
+coverage.xml
+backend/coverage.xml
+backend/tests
+backend/.env*
