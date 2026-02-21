@@ -1,10 +1,10 @@
 {
   "metadata": {
     "total_items": 12,
-    "completed": 3,
-    "in_progress": 2,
+    "completed": 5,
+    "in_progress": 1,
     "blocked": 0,
-    "last_updated": "2026-02-21T11:52:40.253430+00:00"
+    "last_updated": "2026-02-21T12:18:01.226948+00:00"
   },
   "milestones": {},
   "work_items": {
@@ -47,7 +47,7 @@
       "id": "feature_temporal_constraints_filter_endp",
       "type": "feature",
       "title": "Temporal Constraints Filter Endpoint",
-      "status": "in_progress",
+      "status": "completed",
       "priority": "critical",
       "urgent": false,
       "dependencies": [
@@ -63,7 +63,7 @@
       "id": "feature_nps_returns_calculator_endpoint",
       "type": "feature",
       "title": "NPS Returns Calculator Endpoint",
-      "status": "not_started",
+      "status": "in_progress",
       "priority": "critical",
       "urgent": false,
       "dependencies": [
@@ -180,7 +180,7 @@
       "id": "feature_demo_dashboard_expense_round_up_",
       "type": "feature",
       "title": "Demo Dashboard - Expense Round-Up Visualizer",
-      "status": "in_progress",
+      "status": "completed",
       "priority": "high",
       "urgent": false,
       "dependencies": [
