@@ -15,6 +15,31 @@ class ParsedTransaction(BaseModel):
     remanent: float
 
 
+class TransactionInput(BaseModel):
+    date: str
+    amount: float
+    ceiling: float
+    remanent: float
+
+
+class InvalidTransaction(BaseModel):
+    date: str
+    amount: float
+    ceiling: float
+    remanent: float
+    message: str
+
+
+class ValidatorInput(BaseModel):
+    wage: float
+    transactions: list[TransactionInput]
+
+
+class ValidatorOutput(BaseModel):
+    valid: list[TransactionInput]
+    invalid: list[InvalidTransaction]
+
+
 class PerformanceOutput(BaseModel):
     time: str
     memory: str
