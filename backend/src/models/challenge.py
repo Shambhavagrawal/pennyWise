@@ -46,6 +46,50 @@ class PerformanceOutput(BaseModel):
     threads: int
 
 
+class QPeriod(BaseModel):
+    fixed: float
+    start: str
+    end: str
+
+
+class PPeriod(BaseModel):
+    extra: float
+    start: str
+    end: str
+
+
+class KPeriod(BaseModel):
+    start: str
+    end: str
+
+
+class FilterInput(BaseModel):
+    q: list[QPeriod]
+    p: list[PPeriod]
+    k: list[KPeriod]
+    wage: float
+    transactions: list[ExpenseInput]
+
+
+class FilteredTransaction(BaseModel):
+    date: str
+    amount: float
+    ceiling: float
+    remanent: float
+    inkPeriod: bool  # noqa: N815
+
+
+class FilterInvalidTransaction(BaseModel):
+    date: str
+    amount: float
+    message: str
+
+
+class FilterOutput(BaseModel):
+    valid: list[FilteredTransaction]
+    invalid: list[FilterInvalidTransaction]
+
+
 def compute_ceiling(amount: float) -> float:
     return float(math.ceil(amount / 100) * 100)
 
