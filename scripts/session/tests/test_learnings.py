@@ -2,7 +2,6 @@
 
 import json
 import pytest
-from pathlib import Path
 
 
 @pytest.fixture
@@ -35,25 +34,31 @@ def setup_paths(tmp_path, monkeypatch):
     monkeypatch.setattr(learnings_mod, "LEARNINGS_PATH", tracking / "learnings.json")
 
     # Create initial learnings.json
-    (tracking / "learnings.json").write_text(json.dumps({
-        "metadata": {"total_learnings": 0, "last_curated": None},
-        "categories": {
-            "architecture_patterns": [],
-            "gotchas": [],
-            "best_practices": [],
-            "technical_debt": [],
-            "performance_insights": [],
-            "security": [],
-        },
-        "learnings": [],
-    }))
+    (tracking / "learnings.json").write_text(
+        json.dumps(
+            {
+                "metadata": {"total_learnings": 0, "last_curated": None},
+                "categories": {
+                    "architecture_patterns": [],
+                    "gotchas": [],
+                    "best_practices": [],
+                    "technical_debt": [],
+                    "performance_insights": [],
+                    "security": [],
+                },
+                "learnings": [],
+            }
+        )
+    )
 
     return tmp_path
 
 
 def _load_learnings(tmp_path):
     """Helper to load learnings.json from the temp tracking dir."""
-    return json.loads((tmp_path / "tracking" / "learnings.json").read_text(encoding="utf-8"))
+    return json.loads(
+        (tmp_path / "tracking" / "learnings.json").read_text(encoding="utf-8")
+    )
 
 
 # ---------- jaccard_similarity tests ----------
@@ -220,6 +225,7 @@ class TestCurate:
 
         # Use monkeypatch on time to ensure different IDs
         import time
+
         call_count = [0]
         original_time = time.time
 
@@ -242,6 +248,7 @@ class TestCurate:
         from scripts.session.learnings import add, curate
 
         import time
+
         call_count = [0]
         original_time = time.time
 
@@ -262,6 +269,7 @@ class TestCurate:
         from scripts.session.learnings import add, curate
 
         import time
+
         call_count = [0]
         original_time = time.time
 
@@ -272,7 +280,11 @@ class TestCurate:
         monkeypatch.setattr(time, "time", mock_time)
 
         add("use async for database operations", "best_practices", tags=["async"])
-        add("use async for database operations always", "best_practices", tags=["database"])
+        add(
+            "use async for database operations always",
+            "best_practices",
+            tags=["database"],
+        )
         curate(threshold=0.5)
         data = _load_learnings(setup_paths)
         assert len(data["learnings"]) == 1
@@ -284,6 +296,7 @@ class TestCurate:
         from scripts.session.learnings import add, curate
 
         import time
+
         call_count = [0]
         original_time = time.time
 
@@ -307,6 +320,7 @@ class TestCurate:
         from scripts.session.learnings import add, curate
 
         import time
+
         call_count = [0]
         original_time = time.time
 

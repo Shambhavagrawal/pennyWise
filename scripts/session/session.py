@@ -9,7 +9,6 @@ from pathlib import Path
 from .constants import (
     HISTORY_DIR,
     LEARNINGS_PATH,
-    SPECS_DIR,
     STATUS_PATH,
     WORK_ITEMS_PATH,
 )
@@ -21,7 +20,9 @@ def _load_status() -> dict:
 
 
 def _save_status(data: dict) -> None:
-    STATUS_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    STATUS_PATH.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def _load_work_items() -> dict:
@@ -32,10 +33,18 @@ def _save_work_items(data: dict) -> None:
     data["metadata"]["last_updated"] = datetime.now(timezone.utc).isoformat()
     items = data.get("work_items", {})
     data["metadata"]["total_items"] = len(items)
-    data["metadata"]["completed"] = sum(1 for i in items.values() if i["status"] == "completed")
-    data["metadata"]["in_progress"] = sum(1 for i in items.values() if i["status"] == "in_progress")
-    data["metadata"]["blocked"] = sum(1 for i in items.values() if i["status"] == "blocked")
-    WORK_ITEMS_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    data["metadata"]["completed"] = sum(
+        1 for i in items.values() if i["status"] == "completed"
+    )
+    data["metadata"]["in_progress"] = sum(
+        1 for i in items.values() if i["status"] == "in_progress"
+    )
+    data["metadata"]["blocked"] = sum(
+        1 for i in items.values() if i["status"] == "blocked"
+    )
+    WORK_ITEMS_PATH.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def _next_session_number() -> int:
@@ -101,7 +110,8 @@ def start(item_id: str) -> None:
 
     # Check dependencies are met
     unmet = [
-        dep for dep in item.get("dependencies", [])
+        dep
+        for dep in item.get("dependencies", [])
         if items.get(dep, {}).get("status") != "completed"
     ]
     if unmet:
@@ -146,7 +156,9 @@ def start(item_id: str) -> None:
             print(f"  [{learning.get('category', 'unknown')}] {learning['content']}")
         print("--- End Learnings ---")
 
-    print(f"\nReady to implement. Run '/status' to check progress, '/validate' to run quality gates.")
+    print(
+        "\nReady to implement. Run '/status' to check progress, '/validate' to run quality gates."
+    )
 
 
 def end(completion_status: str = "completed", summary: str = "") -> None:
@@ -175,9 +187,15 @@ def end(completion_status: str = "completed", summary: str = "") -> None:
     try:
         result = subprocess.run(
             ["git", "diff", "--stat", "HEAD"],
-            capture_output=True, text=True, timeout=10
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
-        git_diff = result.stdout.strip().split("\n")[-1] if result.stdout.strip() else "No changes"
+        git_diff = (
+            result.stdout.strip().split("\n")[-1]
+            if result.stdout.strip()
+            else "No changes"
+        )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         git_diff = "Unable to get git diff"
 
@@ -196,7 +214,10 @@ def end(completion_status: str = "completed", summary: str = "") -> None:
         "learnings_captured": [],
     }
     history_file = HISTORY_DIR / f"session_{session_num}.json"
-    history_file.write_text(json.dumps(session_record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    history_file.write_text(
+        json.dumps(session_record, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
     # Update work item
     wi_data = _load_work_items()
@@ -209,16 +230,18 @@ def end(completion_status: str = "completed", summary: str = "") -> None:
             item["status"] = "not_started"
         # cancelled keeps current status
 
-        item["sessions"].append({
-            "session_number": session_num,
-            "started_at": started_at,
-            "ended_at": now,
-            "status": completion_status,
-            "quality_gates_passed": all(
-                g.get("passed", False) for g in gate_results.values()
-            ),
-            "summary": summary,
-        })
+        item["sessions"].append(
+            {
+                "session_number": session_num,
+                "started_at": started_at,
+                "ended_at": now,
+                "status": completion_status,
+                "quality_gates_passed": all(
+                    g.get("passed", False) for g in gate_results.values()
+                ),
+                "summary": summary,
+            }
+        )
         _save_work_items(wi_data)
 
     # Reset status
@@ -233,7 +256,7 @@ def end(completion_status: str = "completed", summary: str = "") -> None:
     print(f"Work Item: {item_id}")
     print(f"Duration: {duration_minutes} minutes")
     print(f"Git: {git_diff}")
-    print(f"\nQuality Gates:")
+    print("\nQuality Gates:")
     for gate_name, result in gate_results.items():
         icon = "PASS" if result.get("passed") else "FAIL"
         print(f"  [{icon}] {gate_name}: {result.get('message', '')}")
@@ -251,7 +274,9 @@ def show_status() -> None:
         total = len(items)
         completed = sum(1 for i in items.values() if i["status"] == "completed")
         in_progress = sum(1 for i in items.values() if i["status"] == "in_progress")
-        print(f"\nWork items: {total} total, {completed} completed, {in_progress} in progress")
+        print(
+            f"\nWork items: {total} total, {completed} completed, {in_progress} in progress"
+        )
         return
 
     item_id = status["current_work_item"]
@@ -279,8 +304,7 @@ def show_status() -> None:
     # Git diff stat
     try:
         result = subprocess.run(
-            ["git", "diff", "--stat"],
-            capture_output=True, text=True, timeout=10
+            ["git", "diff", "--stat"], capture_output=True, text=True, timeout=10
         )
         if result.stdout.strip():
             print(f"\nGit changes:\n{result.stdout.strip()}")
@@ -319,18 +343,23 @@ def validate(fix: bool = False, scope: str = None) -> None:
             # Check for unfilled placeholders
             placeholders = re.findall(r"\[.*?\]", content)
             if placeholders:
-                print(f"\n  [WARN] Spec has {len(placeholders)} placeholder(s) — fill them in before completing")
+                print(
+                    f"\n  [WARN] Spec has {len(placeholders)} placeholder(s) — fill them in before completing"
+                )
 
     # Git status
     try:
         result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            capture_output=True, text=True, timeout=10
+            ["git", "status", "--porcelain"], capture_output=True, text=True, timeout=10
         )
-        uncommitted = len(result.stdout.strip().splitlines()) if result.stdout.strip() else 0
+        uncommitted = (
+            len(result.stdout.strip().splitlines()) if result.stdout.strip() else 0
+        )
         if uncommitted:
             print(f"\n  [INFO] {uncommitted} uncommitted file(s)")
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
 
-    print(f"\n{'All gates passed!' if all_passed else 'Some gates failed — fix before completing.'}")
+    print(
+        f"\n{'All gates passed!' if all_passed else 'Some gates failed — fix before completing.'}"
+    )

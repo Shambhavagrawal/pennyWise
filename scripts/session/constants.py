@@ -15,12 +15,23 @@ LEARNINGS_PATH = TRACKING_DIR / "learnings.json"
 STATUS_PATH = TRACKING_DIR / "status_update.json"
 
 # Valid enum values (must match solokit for compatibility)
-VALID_TYPES = {"feature", "bug", "refactor", "security", "integration_test", "deployment"}
+VALID_TYPES = {
+    "feature",
+    "bug",
+    "refactor",
+    "security",
+    "integration_test",
+    "deployment",
+}
 VALID_PRIORITIES = {"critical", "high", "medium", "low"}
 VALID_STATUSES = {"not_started", "in_progress", "blocked", "completed"}
 VALID_CATEGORIES = {
-    "architecture_patterns", "gotchas", "best_practices",
-    "technical_debt", "performance_insights", "security",
+    "architecture_patterns",
+    "gotchas",
+    "best_practices",
+    "technical_debt",
+    "performance_insights",
+    "security",
 }
 
 # Priority sort order (for work-next ranking)

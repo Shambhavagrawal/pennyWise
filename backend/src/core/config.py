@@ -1,6 +1,8 @@
 import json
+
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -11,7 +13,7 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/app_db"
     REDIS_URL: str = "redis://localhost:6379/0"
-    SECRET_KEY: str = "change-me-in-production"
+    SECRET_KEY: str = "change-me-in-production"  # noqa: S105
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
@@ -27,7 +29,9 @@ class Settings(BaseSettings):
             return [origin.strip() for origin in v.split(",") if origin.strip()]
         return v
 
+
 settings = Settings()
+
 
 def get_async_database_url() -> str:
     """Convert standard postgresql:// URL to async postgresql+asyncpg:// driver.

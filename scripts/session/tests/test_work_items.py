@@ -2,7 +2,6 @@
 
 import json
 import pytest
-from pathlib import Path
 
 
 @pytest.fixture
@@ -37,20 +36,26 @@ def setup_paths(tmp_path, monkeypatch):
     monkeypatch.setattr(work_items_mod, "TEMPLATES_DIR", templates)
 
     # Create initial work_items.json
-    (tracking / "work_items.json").write_text(json.dumps({
-        "metadata": {
-            "total_items": 0,
-            "completed": 0,
-            "in_progress": 0,
-            "blocked": 0,
-            "last_updated": None,
-        },
-        "milestones": {},
-        "work_items": {},
-    }))
+    (tracking / "work_items.json").write_text(
+        json.dumps(
+            {
+                "metadata": {
+                    "total_items": 0,
+                    "completed": 0,
+                    "in_progress": 0,
+                    "blocked": 0,
+                    "last_updated": None,
+                },
+                "milestones": {},
+                "work_items": {},
+            }
+        )
+    )
 
     # Create spec templates
-    (templates / "feature_spec.md").write_text("# Feature Spec Template\n\n## Overview\n")
+    (templates / "feature_spec.md").write_text(
+        "# Feature Spec Template\n\n## Overview\n"
+    )
     (templates / "bug_spec.md").write_text("# Bug Spec Template\n\n## Overview\n")
 
     return tmp_path
@@ -58,7 +63,9 @@ def setup_paths(tmp_path, monkeypatch):
 
 def _load_work_items(tmp_path):
     """Helper to load work_items.json from the temp tracking dir."""
-    return json.loads((tmp_path / "tracking" / "work_items.json").read_text(encoding="utf-8"))
+    return json.loads(
+        (tmp_path / "tracking" / "work_items.json").read_text(encoding="utf-8")
+    )
 
 
 # ---------- generate_id tests ----------
@@ -266,7 +273,7 @@ class TestUpdate:
     def test_set_urgent_constraint(self, setup_paths):
         from scripts.session.work_items import create, update
 
-        item_a = create("feature", "Item A", "high", urgent=True)
+        create("feature", "Item A", "high", urgent=True)
         item_b = create("feature", "Item B", "high")
         with pytest.raises(ValueError, match="Already have an urgent item"):
             update(item_b, set_urgent=True)

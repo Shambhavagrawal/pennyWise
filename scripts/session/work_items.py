@@ -29,11 +29,19 @@ def _save(data: dict) -> None:
     """Save work_items.json and update metadata counts."""
     items = data.get("work_items", {})
     data["metadata"]["total_items"] = len(items)
-    data["metadata"]["completed"] = sum(1 for i in items.values() if i["status"] == "completed")
-    data["metadata"]["in_progress"] = sum(1 for i in items.values() if i["status"] == "in_progress")
-    data["metadata"]["blocked"] = sum(1 for i in items.values() if i["status"] == "blocked")
+    data["metadata"]["completed"] = sum(
+        1 for i in items.values() if i["status"] == "completed"
+    )
+    data["metadata"]["in_progress"] = sum(
+        1 for i in items.values() if i["status"] == "in_progress"
+    )
+    data["metadata"]["blocked"] = sum(
+        1 for i in items.values() if i["status"] == "blocked"
+    )
     data["metadata"]["last_updated"] = datetime.now(timezone.utc).isoformat()
-    WORK_ITEMS_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    WORK_ITEMS_PATH.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def generate_id(work_type: str, title: str, existing_ids: set) -> str:
@@ -49,12 +57,16 @@ def generate_id(work_type: str, title: str, existing_ids: set) -> str:
     return candidate
 
 
-def create(work_type: str, title: str, priority: str, dependencies=None, urgent=False) -> str:
+def create(
+    work_type: str, title: str, priority: str, dependencies=None, urgent=False
+) -> str:
     """Add work item to work_items.json, copy spec template, update metadata."""
     if work_type not in VALID_TYPES:
         raise ValueError(f"Invalid type '{work_type}'. Valid: {sorted(VALID_TYPES)}")
     if priority not in VALID_PRIORITIES:
-        raise ValueError(f"Invalid priority '{priority}'. Valid: {sorted(VALID_PRIORITIES)}")
+        raise ValueError(
+            f"Invalid priority '{priority}'. Valid: {sorted(VALID_PRIORITIES)}"
+        )
 
     data = _load()
     items = data["work_items"]
@@ -69,7 +81,9 @@ def create(work_type: str, title: str, priority: str, dependencies=None, urgent=
     if urgent:
         for item in items.values():
             if item.get("urgent", False) and item["status"] != "completed":
-                raise ValueError(f"Already have an urgent item: {item['id']}. Complete it first.")
+                raise ValueError(
+                    f"Already have an urgent item: {item['id']}. Complete it first."
+                )
 
     item_id = generate_id(work_type, title, set(items.keys()))
     now = datetime.now(timezone.utc).isoformat()
@@ -95,7 +109,10 @@ def create(work_type: str, title: str, priority: str, dependencies=None, urgent=
     if template_file.exists():
         shutil.copy2(template_file, spec_file)
     else:
-        spec_file.write_text(f"# {title}\n\n## Overview\n\n## Acceptance Criteria\n\n## Technical Approach\n\n## Testing Requirements\n", encoding="utf-8")
+        spec_file.write_text(
+            f"# {title}\n\n## Overview\n\n## Acceptance Criteria\n\n## Technical Approach\n\n## Testing Requirements\n",
+            encoding="utf-8",
+        )
 
     _save(data)
     print(f"Created work item: {item_id}")
@@ -127,13 +144,17 @@ def list_items(status=None, work_type=None, milestone=None) -> None:
         return
 
     # Sort by priority then by creation date
-    filtered.sort(key=lambda i: (PRIORITY_ORDER.get(i["priority"], 99), i["created_at"]))
+    filtered.sort(
+        key=lambda i: (PRIORITY_ORDER.get(i["priority"], 99), i["created_at"])
+    )
 
     print(f"{'ID':<40} {'Type':<12} {'Priority':<10} {'Status':<14} {'Title'}")
     print("-" * 110)
     for item in filtered:
         urgent_marker = " !" if item.get("urgent") else ""
-        print(f"{item['id']:<40} {item['type']:<12} {item['priority']:<10} {item['status']:<14} {item['title']}{urgent_marker}")
+        print(
+            f"{item['id']:<40} {item['type']:<12} {item['priority']:<10} {item['status']:<14} {item['title']}{urgent_marker}"
+        )
 
     print(f"\nTotal: {len(filtered)} items")
 
@@ -155,7 +176,9 @@ def show(item_id: str) -> None:
     print(f"Priority:     {item['priority']}")
     print(f"Urgent:       {item.get('urgent', False)}")
     print(f"Milestone:    {item.get('milestone', '')}")
-    print(f"Dependencies: {', '.join(item['dependencies']) if item['dependencies'] else 'None'}")
+    print(
+        f"Dependencies: {', '.join(item['dependencies']) if item['dependencies'] else 'None'}"
+    )
     print(f"Created:      {item['created_at']}")
     print(f"Spec:         {item['spec_file']}")
 
@@ -174,7 +197,9 @@ def show(item_id: str) -> None:
     if item["sessions"]:
         print(f"\nSessions ({len(item['sessions'])}):")
         for s in item["sessions"]:
-            print(f"  #{s['session_number']}: {s['status']} ({s.get('started_at', 'N/A')})")
+            print(
+                f"  #{s['session_number']}: {s['status']} ({s.get('started_at', 'N/A')})"
+            )
 
     # Show spec preview
     spec_path = Path(item["spec_file"])
@@ -202,7 +227,9 @@ def update(item_id: str, **fields) -> None:
     if "status" in fields and fields["status"] is not None:
         new_status = fields["status"]
         if new_status not in VALID_STATUSES:
-            raise ValueError(f"Invalid status '{new_status}'. Valid: {sorted(VALID_STATUSES)}")
+            raise ValueError(
+                f"Invalid status '{new_status}'. Valid: {sorted(VALID_STATUSES)}"
+            )
         old = item["status"]
         item["status"] = new_status
         changes.append(f"status: {old} -> {new_status}")
@@ -210,7 +237,9 @@ def update(item_id: str, **fields) -> None:
     if "priority" in fields and fields["priority"] is not None:
         new_priority = fields["priority"]
         if new_priority not in VALID_PRIORITIES:
-            raise ValueError(f"Invalid priority '{new_priority}'. Valid: {sorted(VALID_PRIORITIES)}")
+            raise ValueError(
+                f"Invalid priority '{new_priority}'. Valid: {sorted(VALID_PRIORITIES)}"
+            )
         old = item["priority"]
         item["priority"] = new_priority
         changes.append(f"priority: {old} -> {new_priority}")
@@ -239,8 +268,14 @@ def update(item_id: str, **fields) -> None:
     if "set_urgent" in fields and fields["set_urgent"]:
         # Check constraint: only one urgent at a time
         for other in items.values():
-            if other["id"] != item_id and other.get("urgent", False) and other["status"] != "completed":
-                raise ValueError(f"Already have an urgent item: {other['id']}. Complete it first.")
+            if (
+                other["id"] != item_id
+                and other.get("urgent", False)
+                and other["status"] != "completed"
+            ):
+                raise ValueError(
+                    f"Already have an urgent item: {other['id']}. Complete it first."
+                )
         item["urgent"] = True
         changes.append("set urgent: True")
 
@@ -267,9 +302,13 @@ def delete(item_id: str, with_spec: bool = False) -> None:
         return
 
     # Check if any other items depend on this one
-    dependents = [iid for iid, i in items.items() if item_id in i.get("dependencies", [])]
+    dependents = [
+        iid for iid, i in items.items() if item_id in i.get("dependencies", [])
+    ]
     if dependents:
-        print(f"Cannot delete '{item_id}' — other items depend on it: {', '.join(dependents)}")
+        print(
+            f"Cannot delete '{item_id}' — other items depend on it: {', '.join(dependents)}"
+        )
         print("Remove the dependency first, or delete the dependent items.")
         return
 
@@ -302,15 +341,19 @@ def next_items(limit: int = 5) -> None:
             candidates.append(item)
 
     if not candidates:
-        print("No available work items. All items are either in progress, blocked, completed, or have unmet dependencies.")
+        print(
+            "No available work items. All items are either in progress, blocked, completed, or have unmet dependencies."
+        )
         return
 
     # Sort: urgent first, then by priority
-    candidates.sort(key=lambda i: (
-        0 if i.get("urgent") else 1,
-        PRIORITY_ORDER.get(i["priority"], 99),
-        i["created_at"],
-    ))
+    candidates.sort(
+        key=lambda i: (
+            0 if i.get("urgent") else 1,
+            PRIORITY_ORDER.get(i["priority"], 99),
+            i["created_at"],
+        )
+    )
 
     candidates = candidates[:limit]
     print(f"Next {len(candidates)} recommended work items:\n")
@@ -323,7 +366,9 @@ def next_items(limit: int = 5) -> None:
         print()
 
 
-def render_graph(critical_path: bool = False, bottlenecks: bool = False, stats: bool = False) -> None:
+def render_graph(
+    critical_path: bool = False, bottlenecks: bool = False, stats: bool = False
+) -> None:
     """ASCII dependency graph with optional analysis."""
     data = _load()
     items = data["work_items"]
@@ -364,7 +409,12 @@ def render_graph(critical_path: bool = False, bottlenecks: bool = False, stats: 
         deps = adj[node]
         depth[node] = max((depth[d] for d in deps), default=-1) + 1
 
-    status_icons = {"completed": "+", "in_progress": ">", "blocked": "x", "not_started": "o"}
+    status_icons = {
+        "completed": "+",
+        "in_progress": ">",
+        "blocked": "x",
+        "not_started": "o",
+    }
 
     print("Work Item Dependency Graph:")
     print()
@@ -405,7 +455,9 @@ def render_graph(critical_path: bool = False, bottlenecks: bool = False, stats: 
         top = sorted(dependent_count.items(), key=lambda x: -x[1])[:5]
         top_with_deps = [(n, c) for n, c in top if c > 0]
         if top_with_deps:
-            print(f"\nBottlenecks: {', '.join(f'{n} ({c} dependents)' for n, c in top_with_deps)}")
+            print(
+                f"\nBottlenecks: {', '.join(f'{n} ({c} dependents)' for n, c in top_with_deps)}"
+            )
         else:
             print("\nNo bottlenecks (no dependencies between items).")
 
@@ -415,4 +467,7 @@ def render_graph(critical_path: bool = False, bottlenecks: bool = False, stats: 
         by_status = defaultdict(int)
         for item in items.values():
             by_status[item["status"]] += 1
-        print(f"\nStats: {total} items — " + ", ".join(f"{s}: {c}" for s, c in sorted(by_status.items())))
+        print(
+            f"\nStats: {total} items — "
+            + ", ".join(f"{s}: {c}" for s, c in sorted(by_status.items()))
+        )

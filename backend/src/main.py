@@ -1,5 +1,6 @@
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from src.core.config import settings
 
 app = FastAPI(
@@ -22,6 +23,7 @@ app.add_middleware(
 api_router = APIRouter(prefix="/api")
 # Example: api_router.include_router(users.router)
 app.include_router(api_router)
+
 
 # Health check at root (nginx routes /health directly to backend)
 @app.get("/health")

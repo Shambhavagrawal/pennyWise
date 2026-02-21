@@ -14,7 +14,9 @@ def run_quality_gates(fix: bool = False, scope: str = None) -> dict:
         scope: Limit to 'backend' or 'frontend'. Default: both.
     """
     if not CONFIG_PATH.exists():
-        return {"error": {"passed": False, "message": f"Config not found: {CONFIG_PATH}"}}
+        return {
+            "error": {"passed": False, "message": f"Config not found: {CONFIG_PATH}"}
+        }
 
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     gates = config.get("quality_gates", {})
@@ -53,8 +55,16 @@ def run_quality_gates(fix: bool = False, scope: str = None) -> dict:
                 else:
                     gate_passed = False
                     # Get last few lines of output for context
-                    stderr = result.stderr.strip().split("\n")[-3:] if result.stderr.strip() else []
-                    stdout = result.stdout.strip().split("\n")[-3:] if result.stdout.strip() else []
+                    stderr = (
+                        result.stderr.strip().split("\n")[-3:]
+                        if result.stderr.strip()
+                        else []
+                    )
+                    stdout = (
+                        result.stdout.strip().split("\n")[-3:]
+                        if result.stdout.strip()
+                        else []
+                    )
                     error_lines = stderr or stdout
                     messages.append(f"{lang}: FAILED — {'; '.join(error_lines)}")
             except subprocess.TimeoutExpired:

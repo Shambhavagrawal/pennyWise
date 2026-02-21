@@ -17,7 +17,9 @@ def _load() -> dict:
 
 def _save(data: dict) -> None:
     data["metadata"]["total_learnings"] = len(data.get("learnings", []))
-    LEARNINGS_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    LEARNINGS_PATH.write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def jaccard_similarity(text_a: str, text_b: str) -> float:
@@ -29,10 +31,18 @@ def jaccard_similarity(text_a: str, text_b: str) -> float:
     return len(words_a & words_b) / len(words_a | words_b)
 
 
-def add(content: str, category: str, tags: list = None, session: int = None, context: str = "") -> str:
+def add(
+    content: str,
+    category: str,
+    tags: list = None,
+    session: int = None,
+    context: str = "",
+) -> str:
     """Add a learning entry."""
     if category not in VALID_CATEGORIES:
-        raise ValueError(f"Invalid category '{category}'. Valid: {sorted(VALID_CATEGORIES)}")
+        raise ValueError(
+            f"Invalid category '{category}'. Valid: {sorted(VALID_CATEGORIES)}"
+        )
 
     data = _load()
     tags = tags or []
@@ -75,11 +85,11 @@ def show(category: str = None, tag: str = None, session: int = None) -> None:
 
     filtered = learnings
     if category:
-        filtered = [l for l in filtered if l.get("category") == category]
+        filtered = [entry for entry in filtered if entry.get("category") == category]
     if tag:
-        filtered = [l for l in filtered if tag in l.get("tags", [])]
+        filtered = [entry for entry in filtered if tag in entry.get("tags", [])]
     if session is not None:
-        filtered = [l for l in filtered if l.get("session") == session]
+        filtered = [entry for entry in filtered if entry.get("session") == session]
 
     if not filtered:
         print("No matching learnings found.")
@@ -94,8 +104,12 @@ def show(category: str = None, tag: str = None, session: int = None) -> None:
     for cat, items in sorted(by_category.items()):
         print(f"\n## {cat} ({len(items)})")
         for item in items:
-            tags_str = f" [{', '.join(item.get('tags', []))}]" if item.get("tags") else ""
-            session_str = f" (session #{item['session']})" if item.get("session") else ""
+            tags_str = (
+                f" [{', '.join(item.get('tags', []))}]" if item.get("tags") else ""
+            )
+            session_str = (
+                f" (session #{item['session']})" if item.get("session") else ""
+            )
             print(f"  - {item['content']}{tags_str}{session_str}")
             print(f"    id: {item['id']} | {item['created_at']}")
 
@@ -139,8 +153,12 @@ def search(query: str) -> None:
     results.sort(key=lambda x: -x[0])
     print(f"Search results for '{query}' ({len(results)} matches):\n")
     for score, learning in results:
-        tags_str = f" [{', '.join(learning.get('tags', []))}]" if learning.get("tags") else ""
-        print(f"  [{learning.get('category', 'unknown')}] {learning['content']}{tags_str}")
+        tags_str = (
+            f" [{', '.join(learning.get('tags', []))}]" if learning.get("tags") else ""
+        )
+        print(
+            f"  [{learning.get('category', 'unknown')}] {learning['content']}{tags_str}"
+        )
         print(f"    id: {learning['id']} | relevance: {score}")
 
 

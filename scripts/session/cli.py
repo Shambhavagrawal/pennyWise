@@ -62,8 +62,20 @@ def main():
 
     # end
     p = subparsers.add_parser("end", help="End current session")
-    p.add_argument("--complete", action="store_const", const="completed", dest="status", help="Mark as completed")
-    p.add_argument("--incomplete", action="store_const", const="incomplete", dest="status", help="Mark as incomplete")
+    p.add_argument(
+        "--complete",
+        action="store_const",
+        const="completed",
+        dest="status",
+        help="Mark as completed",
+    )
+    p.add_argument(
+        "--incomplete",
+        action="store_const",
+        const="incomplete",
+        dest="status",
+        help="Mark as incomplete",
+    )
     p.add_argument("--summary", default="", help="Session summary")
 
     # status
@@ -72,7 +84,9 @@ def main():
     # validate
     p = subparsers.add_parser("validate", help="Run quality gates")
     p.add_argument("--fix", action="store_true", help="Auto-fix issues")
-    p.add_argument("--scope", choices=["backend", "frontend"], help="Limit to one stack")
+    p.add_argument(
+        "--scope", choices=["backend", "frontend"], help="Limit to one stack"
+    )
 
     # learn-add
     p = subparsers.add_parser("learn-add", help="Add a learning")
@@ -105,18 +119,22 @@ def main():
     # Route to the appropriate module
     if args.command == "work-new":
         from .work_items import create
+
         create(args.type, args.title, args.priority, args.dependencies, args.urgent)
 
     elif args.command == "work-list":
         from .work_items import list_items
+
         list_items(args.status, args.type, args.milestone)
 
     elif args.command == "work-show":
         from .work_items import show
+
         show(args.id)
 
     elif args.command == "work-update":
         from .work_items import update
+
         update(
             args.id,
             status=args.status,
@@ -130,46 +148,57 @@ def main():
 
     elif args.command == "work-delete":
         from .work_items import delete
+
         delete(args.id, args.with_spec)
 
     elif args.command == "work-next":
         from .work_items import next_items
+
         next_items(args.limit)
 
     elif args.command == "work-graph":
         from .work_items import render_graph
+
         render_graph(args.critical_path, args.bottlenecks, args.stats)
 
     elif args.command == "start":
         from .session import start
+
         start(args.id)
 
     elif args.command == "end":
         from .session import end
+
         end(args.status or "completed", args.summary)
 
     elif args.command == "status":
         from .session import show_status
+
         show_status()
 
     elif args.command == "validate":
         from .session import validate
+
         validate(args.fix, args.scope)
 
     elif args.command == "learn-add":
         from .learnings import add
+
         add(args.content, args.category, args.tags, args.session)
 
     elif args.command == "learn-show":
         from .learnings import show
+
         show(args.category, args.tag, args.session)
 
     elif args.command == "learn-search":
         from .learnings import search
+
         search(args.query)
 
     elif args.command == "learn-curate":
         from .learnings import curate
+
         curate(args.dry_run, args.threshold)
 
 

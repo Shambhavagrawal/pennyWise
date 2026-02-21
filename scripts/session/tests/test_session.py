@@ -2,8 +2,7 @@
 
 import json
 import pytest
-from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 
 
 @pytest.fixture
@@ -40,7 +39,6 @@ def setup_paths(tmp_path, monkeypatch):
     monkeypatch.setattr(session_mod, "LEARNINGS_PATH", tracking / "learnings.json")
     monkeypatch.setattr(session_mod, "STATUS_PATH", tracking / "status_update.json")
     monkeypatch.setattr(session_mod, "HISTORY_DIR", history)
-    monkeypatch.setattr(session_mod, "SPECS_DIR", specs)
 
     # Patch work_items module (used by create helper)
     monkeypatch.setattr(work_items_mod, "WORK_ITEMS_PATH", tracking / "work_items.json")
@@ -54,54 +52,75 @@ def setup_paths(tmp_path, monkeypatch):
     monkeypatch.setattr(quality_mod, "CONFIG_PATH", tmp_path / "config.json")
 
     # Create initial files
-    (tracking / "work_items.json").write_text(json.dumps({
-        "metadata": {
-            "total_items": 0,
-            "completed": 0,
-            "in_progress": 0,
-            "blocked": 0,
-            "last_updated": None,
-        },
-        "milestones": {},
-        "work_items": {},
-    }))
-    (tracking / "learnings.json").write_text(json.dumps({
-        "metadata": {"total_learnings": 0, "last_curated": None},
-        "categories": {
-            "architecture_patterns": [],
-            "gotchas": [],
-            "best_practices": [],
-            "technical_debt": [],
-            "performance_insights": [],
-            "security": [],
-        },
-        "learnings": [],
-    }))
-    (tracking / "status_update.json").write_text(json.dumps({
-        "current_session": None,
-        "current_work_item": None,
-        "started_at": None,
-        "status": "idle",
-    }))
+    (tracking / "work_items.json").write_text(
+        json.dumps(
+            {
+                "metadata": {
+                    "total_items": 0,
+                    "completed": 0,
+                    "in_progress": 0,
+                    "blocked": 0,
+                    "last_updated": None,
+                },
+                "milestones": {},
+                "work_items": {},
+            }
+        )
+    )
+    (tracking / "learnings.json").write_text(
+        json.dumps(
+            {
+                "metadata": {"total_learnings": 0, "last_curated": None},
+                "categories": {
+                    "architecture_patterns": [],
+                    "gotchas": [],
+                    "best_practices": [],
+                    "technical_debt": [],
+                    "performance_insights": [],
+                    "security": [],
+                },
+                "learnings": [],
+            }
+        )
+    )
+    (tracking / "status_update.json").write_text(
+        json.dumps(
+            {
+                "current_session": None,
+                "current_work_item": None,
+                "started_at": None,
+                "status": "idle",
+            }
+        )
+    )
 
     # Create spec templates
-    (templates / "feature_spec.md").write_text("# Feature Spec Template\n\n## Overview\n")
+    (templates / "feature_spec.md").write_text(
+        "# Feature Spec Template\n\n## Overview\n"
+    )
     (templates / "bug_spec.md").write_text("# Bug Spec Template\n\n## Overview\n")
 
     return tmp_path
 
 
 def _load_status(tmp_path):
-    return json.loads((tmp_path / "tracking" / "status_update.json").read_text(encoding="utf-8"))
+    return json.loads(
+        (tmp_path / "tracking" / "status_update.json").read_text(encoding="utf-8")
+    )
 
 
 def _load_work_items(tmp_path):
-    return json.loads((tmp_path / "tracking" / "work_items.json").read_text(encoding="utf-8"))
+    return json.loads(
+        (tmp_path / "tracking" / "work_items.json").read_text(encoding="utf-8")
+    )
 
 
-def _create_work_item(title="Test Feature", priority="high", work_type="feature", **kwargs):
+def _create_work_item(
+    title="Test Feature", priority="high", work_type="feature", **kwargs
+):
     """Helper to create a work item via the work_items module."""
     from scripts.session.work_items import create
+
     return create(work_type, title, priority, **kwargs)
 
 

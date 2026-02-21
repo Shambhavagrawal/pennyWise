@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: ruff
         name: ruff (backend)
-        entry: task lint:backend
+        entry: bash -c "backend/venv/Scripts/ruff check backend/src/ backend/tests/"
         language: system
         files: ^backend/
         types: [python]
@@ -27,7 +27,7 @@ repos:
 
       - id: lint-staged-frontend
         name: lint-staged (frontend)
-        entry: task lint:frontend:staged
+        entry: npx --prefix frontend lint-staged
         language: system
         files: ^frontend/
         pass_filenames: false
