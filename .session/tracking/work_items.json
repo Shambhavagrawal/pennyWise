@@ -1,10 +1,10 @@
 {
   "metadata": {
     "total_items": 12,
-    "completed": 5,
+    "completed": 6,
     "in_progress": 1,
     "blocked": 0,
-    "last_updated": "2026-02-21T12:18:01.226948+00:00"
+    "last_updated": "2026-02-21T12:38:58.782135+00:00"
   },
   "milestones": {},
   "work_items": {
@@ -63,7 +63,7 @@
       "id": "feature_nps_returns_calculator_endpoint",
       "type": "feature",
       "title": "NPS Returns Calculator Endpoint",
-      "status": "in_progress",
+      "status": "completed",
       "priority": "critical",
       "urgent": false,
       "dependencies": [
@@ -87,7 +87,7 @@
       "id": "feature_index_fund_returns_calculator_en",
       "type": "feature",
       "title": "Index Fund Returns Calculator Endpoint",
-      "status": "not_started",
+      "status": "in_progress",
       "priority": "critical",
       "urgent": false,
       "dependencies": [
