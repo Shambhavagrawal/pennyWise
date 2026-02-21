@@ -10,6 +10,7 @@ from src.models.challenge import (
 )
 
 NPS_RATE = 0.0711
+INDEX_RATE = 0.1449
 
 TAX_SLABS = [
     (700_000, 0.00),
@@ -33,8 +34,13 @@ def compute_tax(income: float) -> float:
     return tax
 
 
-def compute_nps_returns(payload: ReturnsInput) -> ReturnsOutput:
-    """Run the full pipeline and calculate NPS returns with tax benefits."""
+def _compute_returns(
+    payload: ReturnsInput,
+    *,
+    rate: float,
+    include_tax_benefit: bool,
+) -> ReturnsOutput:
+    """Shared returns calculation parameterized by rate and tax logic."""
     # Step 1: Validate — reject negatives and duplicates
     valid_raw: list[ExpenseInput] = []
     seen_dates: set[str] = set()
@@ -125,8 +131,8 @@ def compute_nps_returns(payload: ReturnsInput) -> ReturnsOutput:
             if k_period.start <= txn["date"] <= k_period.end:
                 k_amount += txn["remanent"]
 
-        # Compound interest at NPS rate (never round intermediates)
-        a = k_amount * (1 + NPS_RATE) ** t
+        # Compound interest (never round intermediates)
+        a = k_amount * (1 + rate) ** t
 
         # Inflation adjustment
         a_real = a / (1 + payload.inflation / 100) ** t
@@ -134,13 +140,13 @@ def compute_nps_returns(payload: ReturnsInput) -> ReturnsOutput:
         # Profit — round ONLY at final stage
         profit = round(a_real - k_amount, 2)
 
-        # NPS deduction
-        nps_deduction = min(k_amount, 0.10 * annual_income, 200_000)
-
-        # Tax benefit
-        tax_without = compute_tax(annual_income)
-        tax_with = compute_tax(annual_income - nps_deduction)
-        tax_benefit = round(tax_without - tax_with, 2)
+        # Tax benefit (NPS only)
+        tax_benefit = 0.0
+        if include_tax_benefit:
+            nps_deduction = min(k_amount, 0.10 * annual_income, 200_000)
+            tax_without = compute_tax(annual_income)
+            tax_with = compute_tax(annual_income - nps_deduction)
+            tax_benefit = round(tax_without - tax_with, 2)
 
         savings_by_dates.append(
             SavingsByDate(
@@ -157,3 +163,13 @@ def compute_nps_returns(payload: ReturnsInput) -> ReturnsOutput:
         totalCeiling=round(total_ceiling, 2),
         savingsByDates=savings_by_dates,
     )
+
+
+def compute_nps_returns(payload: ReturnsInput) -> ReturnsOutput:
+    """Calculate NPS returns with tax benefits at 7.11% rate."""
+    return _compute_returns(payload, rate=NPS_RATE, include_tax_benefit=True)
+
+
+def compute_index_returns(payload: ReturnsInput) -> ReturnsOutput:
+    """Calculate Index Fund returns at 14.49% rate, no tax benefit."""
+    return _compute_returns(payload, rate=INDEX_RATE, include_tax_benefit=False)

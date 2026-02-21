@@ -13,7 +13,7 @@ from src.models.challenge import (
     ValidatorOutput,
 )
 from src.services.performance_service import get_performance_metrics
-from src.services.returns_service import compute_nps_returns
+from src.services.returns_service import compute_index_returns, compute_nps_returns
 from src.services.transaction_service import (
     filter_transactions,
     parse_transactions,
@@ -41,6 +41,11 @@ async def transactions_filter(payload: FilterInput):
 @router.post("/returns:nps", response_model=ReturnsOutput)
 async def returns_nps(payload: ReturnsInput):
     return compute_nps_returns(payload)
+
+
+@router.post("/returns:index", response_model=ReturnsOutput)
+async def returns_index(payload: ReturnsInput):
+    return compute_index_returns(payload)
 
 
 @router.get("/performance", response_model=PerformanceOutput)
