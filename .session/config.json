@@ -1,0 +1,44 @@
+{
+  "quality_gates": {
+    "tier": "tier-4-production",
+    "coverage_threshold": 90,
+    "test_execution": {
+      "enabled": true,
+      "required": true,
+      "commands": {
+        "python": "task test:backend",
+        "javascript": "task test:frontend"
+      }
+    },
+    "linting": {
+      "enabled": true,
+      "required": true,
+      "commands": {
+        "python": "task lint:backend",
+        "javascript": "task lint:frontend"
+      }
+    },
+    "formatting": {
+      "enabled": true,
+      "required": true,
+      "commands": {
+        "python": "task format:backend",
+        "javascript": "task format:frontend"
+      }
+    },
+    "type_checking": {
+      "enabled": true,
+      "required": true,
+      "commands": {
+        "python": "task type-check:backend",
+        "javascript": "task type-check:frontend"
+      }
+    }
+  },
+  "git_workflow": {
+    "mode": "pr",
+    "auto_push": true,
+    "auto_create_pr": true,
+    "pr_title_template": "{type}: {title}"
+  }
+}
