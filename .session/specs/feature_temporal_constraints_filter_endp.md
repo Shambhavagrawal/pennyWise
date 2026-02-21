@@ -24,7 +24,9 @@ This endpoint combines validation, parsing, and temporal logic into one pipeline
 - [ ] p period: p's `extra` is ADDED to the remanent
 - [ ] Multiple p periods: ALL matching extras are summed and added
 - [ ] q applied FIRST, then p adds on top
-- [ ] k period: `inkPeriod = true` if transaction falls in ANY k period, else `false`
+- [ ] Transactions with remanent=0 after q/p processing are OMITTED from valid output (match spec example exactly)
+- [ ] k period: `inkPeriod = true` if transaction falls in ANY k period, else `false` (determined by k periods ONLY, never by q or p)
+- [ ] inkPeriod logic must not be conflated with q/p period matching — they are independent systems
 - [ ] Valid output: `{date, amount, ceiling, remanent, inkPeriod}`
 - [ ] Invalid output: `{date, amount, message}`
 - [ ] Original date strings are preserved in output (even invalid dates like "2023-11-31")
@@ -39,9 +41,17 @@ Create the q/p/k engine in `transaction_service.py`. Processing order:
 2. Compute ceiling/remanent for valid transactions using existing parse logic
 3. For each valid transaction, find matching q period (latest start wins, list-order tiebreak) and replace remanent
 4. For each valid transaction, find ALL matching p periods and sum extras onto remanent
-5. For each valid transaction, check if it falls in ANY k period and set `inkPeriod`
+5. Remove transactions with remanent=0 from valid output
+6. For each remaining valid transaction, check if it falls in ANY k period and set `inkPeriod`
 
 Date comparison requires parsing date strings, but original strings are preserved in output. Use lenient parsing to handle edge cases like "2023-11-31".
+
+### Performance at Scale
+
+The spec requires handling up to 10^6 transactions. Naive O(n×m) period matching will timeout:
+- Sort q/p/k periods by start date at request entry
+- Use `bisect` (binary search) to find candidate periods for each transaction
+- Target O(n log m) complexity where n=transactions, m=periods
 
 ### LLM/Processing Configuration
 
@@ -90,11 +100,13 @@ Response 200:
   "valid": [
     {"date": "2023-10-12 14:23:00", "amount": 250.0, "ceiling": 300.0, "remanent": 75.0, "inkPeriod": true},
     {"date": "2023-02-28 09:15:00", "amount": 375.0, "ceiling": 400.0, "remanent": 25.0, "inkPeriod": true},
-    {"date": "2023-07-01 12:00:00", "amount": 620.0, "ceiling": 700.0, "remanent": 0.0, "inkPeriod": true},
     {"date": "2023-12-17 18:30:00", "amount": 480.0, "ceiling": 500.0, "remanent": 45.0, "inkPeriod": true}
   ],
   "invalid": []
 }
+CRITICAL: The July transaction (remanent=0 after q override) is OMITTED from valid
+output — matches the spec example exactly. Verify against actual spec output during
+implementation to confirm which transactions appear.
 
 Response 422: Malformed input
 ```
@@ -119,6 +131,8 @@ None. Stateless computation.
 - `test_filter_negative`: negative amounts go to invalid
 - `test_filter_duplicate`: duplicate dates go to invalid
 - `test_filter_computes_ceiling`: ceiling/remanent computed from raw input
+- `test_filter_omits_zero_remanent`: transaction with remanent=0 after q override is omitted from valid output
+- `test_inkPeriod_only_k_periods`: inkPeriod is determined solely by k periods, not q or p periods
 
 ### Integration Tests
 

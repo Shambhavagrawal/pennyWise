@@ -29,13 +29,15 @@ test/
   test_full_pipeline.py    # End-to-end spec worked example
 ```
 
-Each file starts with metadata comments:
+**CRITICAL:** Each file MUST start with metadata comments (spec requirement — easy bonus points most competitors forget):
 
 ```python
 # Test Type: Unit Test / Integration Test
 # Validation: [Description of what is being validated]
 # Command: pytest test/test_<name>.py -v
 ```
+
+These comments are explicitly mentioned in the challenge spec and are evaluated for bonus points.
 
 ## Test Scenarios
 
@@ -162,9 +164,11 @@ Each file starts with metadata comments:
 **Scenarios:**
 1. Parse 4 transactions -> correct ceiling/remanent for each
 2. Filter with q/p/k -> correct adjusted remanents (75, 25, 0, 45)
-3. NPS returns for k[1] -> amount=145, profit=86.88, taxBenefit=0.0
-4. Index returns for k[1] -> amount=145, profit differs from NPS, taxBenefit=0.0
-5. totalTransactionAmount = 1725.0, totalCeiling = 1900.0
+3. Filter omits zero-remanent transactions (July with q override) from valid output
+4. NPS returns for k[1] -> amount=145, profit=86.88 EXACTLY (precision pinned test), taxBenefit=0.0
+5. Index returns for k[1] -> amount=145, profit differs from NPS, taxBenefit=0.0
+6. totalTransactionAmount = 1725.0, totalCeiling = 1900.0
+7. Field names match JSON examples: `totalTransactionAmount`, `totalCeiling`, `profit`, `taxBenefit`
 
 ## Environment Requirements
 
@@ -201,7 +205,7 @@ def client():
 ## Acceptance Criteria
 
 - [ ] All test files are in `/test` directory at project root
-- [ ] Each test file has metadata comments (test type, validation, command)
+- [ ] Each test file has metadata comments (test type, validation, command) — REQUIRED by spec for bonus points
 - [ ] `pytest test/ -v` runs all tests and they pass
 - [ ] At least 10-15 tests total across all files
 - [ ] Tests cover: parsing, validation, q/p/k rules, NPS returns, Index returns, performance

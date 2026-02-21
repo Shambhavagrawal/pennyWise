@@ -23,7 +23,9 @@ This endpoint enables side-by-side comparison with NPS. The higher return rate (
 - [ ] Profit values differ from NPS due to different rate
 - [ ] `t = max(60 - age, 5)` same as NPS
 - [ ] Inflation adjustment same as NPS
-- [ ] Round final output values to 2 decimal places
+- [ ] Round final output values to 2 decimal places — NEVER round intermediate calculations
+- [ ] Precision: full float precision throughout, round ONLY at final output (`round(value, 2)`)
+- [ ] Performance: inherits O(n log m) period matching from shared filter pipeline
 
 ## Implementation Details
 
@@ -36,9 +38,10 @@ Extract the shared returns calculation into a parameterized function in `returns
 **Type:** Deterministic (No LLM)
 
 **Processing Type:**
-- Reuse full filter pipeline from transaction_service
+- Reuse full filter pipeline from transaction_service (inherits O(n log m) performance)
 - Reuse returns calculation from returns_service with rate=0.1449
 - Set taxBenefit=0.0 for all k periods (skip NPS deduction logic)
+- Full float precision throughout, round only at final output
 
 ### Components Affected
 

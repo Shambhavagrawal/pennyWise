@@ -32,7 +32,11 @@ This endpoint is the culmination of the entire pipeline -- it proves the system 
 - [ ] `inflation` is a percentage (5.5 means 5.5%, used as 0.055)
 - [ ] `wage` is monthly, annual = wage * 12
 - [ ] Field names: `totalTransactionAmount`, `totalCeiling`, `profit` (singular), `taxBenefit`
-- [ ] Round final output values to 2 decimal places
+- [ ] Round final output values to 2 decimal places — NEVER round intermediate calculations
+- [ ] Pinned precision test: k[1] amount=145, age=29 (t=31), inflation=5.5 → profit MUST equal exactly 86.88
+- [ ] Field names MUST match JSON examples: `totalTransactionAmount`, `totalCeiling`, `profit` (not spec prose names)
+- [ ] Day-one smoke test: verify field names in response JSON before any other testing
+- [ ] Performance: use sort-then-binary-search for q/p/k period matching (O(n log m) not O(n×m)) to handle 10^6 transactions
 
 ## Implementation Details
 
@@ -46,6 +50,18 @@ Create `returns_service.py` with a shared returns calculation function parameter
 5. Aggregate totalTransactionAmount and totalCeiling from valid transactions
 
 The tax calculation function implements progressive slabs: iterate through slab boundaries, computing tax at each marginal rate.
+
+### Precision Requirements
+
+All intermediate calculations MUST use full float precision. Only round at the final output stage:
+- `A = amount * (1.0711) ** t` — full precision
+- `A_real = A / (1 + inflation/100) ** t` — full precision
+- `profit = round(A_real - amount, 2)` — round ONLY here
+Pin test: `145 * (1.0711)**31 / (1.055)**31 - 145` must produce `86.88` after rounding.
+
+### Performance at Scale
+
+Reuses the filter pipeline, so the O(n log m) period matching from filter_transactions applies here too. The k-period grouping is an additional O(n×k) pass — acceptable since k is typically small.
 
 ### LLM/Processing Configuration
 

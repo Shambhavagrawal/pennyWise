@@ -41,6 +41,7 @@ The current codebase is a full-stack monorepo with PostgreSQL, Redis, Alembic, N
 | 14 | **`/blackrock/challenge/v1/returns:compare`** — comparison API endpoint | Extends domain depth beyond spec |
 | 15 | **Year-by-year projection array** in returns output | Transforms static numbers into a growth story |
 | 16 | **Input tolerance** — accept dates with/without seconds, handle "Nov 31" gracefully | Real-world engineering maturity signal |
+| 17 | **`/blackrock/challenge/v1/simulate`** — lifetime retirement projection from income + spending patterns | Speaks directly to "Sustainable Financial Well-Being" theme. Only if Tier 1-3 are bulletproof. |
 
 ## EXPLICIT DO-NOT-DO LIST
 
@@ -78,12 +79,19 @@ Plain Pydantic BaseModel for challenge request/response schemas (not SQLModel ta
 Store dates as strings, parse with `datetime.strptime` for comparisons. Preserve original strings in output (handles the "Nov 31" trap). Use lenient parsing where needed.
 
 ### 6. Precision
-Use Python's native `float` throughout, `round(value, 2)` only on final output values.
+Use Python's native `float` throughout, `round(value, 2)` only on final output values. Never round intermediate calculations. Pin test: `145 × (1.0711)^31 / (1.055)^31 - 145 = 86.88` — this exact value must be reproduced.
 
 ### 7. Challenge Dockerfile
 Separate Dockerfile for challenge submission. `python:3.12-slim` base. Just `pip install` challenge deps, `EXPOSE 5477`, `CMD uvicorn`. Existing Docker Compose files stay for full-stack dev.
 
-### 8. Frontend demo dashboard
+### 8. Algorithmic performance for scale
+The spec says "handle up to 10^6 transactions per request." For q/p/k period matching:
+- Sort periods by start date once at request entry
+- Use `bisect` (binary search) to find candidate periods for each transaction
+- This gives O(n log m) instead of O(n×m) where n=transactions, m=periods
+- The `/performance` endpoint's existence is a hint that judges are measuring response times
+
+### 9. Frontend demo dashboard
 Use existing Next.js scaffold. Build a single-page demo dashboard that visually showcases all API capabilities — expense input, round-up visualization, NPS vs Index comparison, live performance metrics. This is what the video demo will screen-record.
 
 ---
@@ -103,6 +111,11 @@ Use existing Next.js scaffold. Build a single-page demo dashboard that visually 
 11. **Field names follow JSON examples** not spec text: `totalTransactionAmount`, `totalCeiling`, `profit` (singular)
 12. **`taxBenefit` uses progressive tax slabs** — cumulative marginal calculation
 13. **Amount exactly multiple of 100** → ceiling = same value, remanent = 0
+14. **`inkPeriod` is determined ONLY by k periods** — never by q or p periods. Don't conflate the filter/returns examples — they use different k period ranges.
+15. **Performance at scale: 10^6 transactions** — naive O(n×m) matching against q/p/k periods will timeout. Use sort-then-binary-search or interval tree for period matching. The `/performance` endpoint exists to evaluate this.
+16. **Profit precision** — compute with full float precision throughout. Round ONLY at final output (`round(value, 2)`). Pin test case: k[1] amount=145, NPS rate, age 29 → profit must equal exactly 86.88.
+17. **Test file metadata comments are required** — each test file must start with `# Test Type:`, `# Validation:`, `# Command:` comments. Easy bonus points most competitors will forget.
+18. **Field name verification** — day-one smoke test: confirm output uses JSON example field names (`totalTransactionAmount`, `totalCeiling`, `profit`, `taxBenefit`), NOT spec prose names.
 
 ---
 
@@ -136,8 +149,9 @@ Use existing Next.js scaffold. Build a single-page demo dashboard that visually 
   2. Compute ceiling/remanent for valid transactions
   3. Apply q rules (replace remanent with fixed; latest-start wins, list-order tiebreak)
   4. Apply p rules (add ALL matching extras)
-  5. Set `inkPeriod = true` if transaction falls in ANY k period
-- **Note:** The July transaction in the example (remanent=0 after q) is missing from example output — likely a spec omission. Include it.
+  5. Omit transactions with remanent=0 from valid output (match spec example exactly)
+  6. Set `inkPeriod = true` if transaction falls in ANY k period (determined by k periods ONLY, not q/p)
+- **CRITICAL:** Transactions with remanent=0 after q-period override are OMITTED from valid output. Match the spec example exactly — the July transaction (remanent=0) is absent from the worked example output. Do NOT include it.
 
 ### Endpoint 4a: Returns — NPS
 

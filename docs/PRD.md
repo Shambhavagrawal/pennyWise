@@ -54,6 +54,7 @@ None. All computation is self-contained.
 ### Performance Requirements
 - Must handle up to 10^6 transactions per request
 - Must handle up to 10^6 q, p, and k periods per request
+- Naive O(n×m) period matching is O(10^12) — will timeout. Use sort-then-binary-search (bisect) for O(n log m)
 - Performance endpoint must report real metrics (uptime, memory, threads)
 
 ### Security Requirements
@@ -85,6 +86,7 @@ None. All computation is self-contained.
 - [ ] Comparative returns endpoint (`/blackrock/challenge/v1/returns:compare`)
 - [ ] Year-by-year projection in returns output
 - [ ] Lenient date parsing (accept formats with/without seconds)
+- [ ] `/blackrock/challenge/v1/simulate` — lifetime retirement projection (stretch goal, only if Tier 1-3 are bulletproof)
 
 ### Won't Have (Out of Scope)
 - Database persistence for challenge data
@@ -221,10 +223,15 @@ None. All computation is self-contained.
 6. Given a transaction falling within any k period
    When filtered
    Then `inkPeriod` is `true`
+   And `inkPeriod` is determined ONLY by k periods (never by q or p periods)
 
 7. Given a transaction NOT in any k period
    When filtered
    Then `inkPeriod` is `false`
+
+11. Given a transaction with remanent=0 after q/p processing
+    When filtered
+    Then it is OMITTED from the valid output (match spec example exactly)
 
 8. Given a negative amount transaction
    When filtered
@@ -242,7 +249,7 @@ None. All computation is self-contained.
 - Path: `POST /blackrock/challenge/v1/transactions:filter`
 - Input: `{q, p, k, wage, transactions: [{date, amount}]}`
 - Output: `{valid: [{date, amount, ceiling, remanent, inkPeriod}], invalid: [{date, amount, message}]}`
-- Processing order: validate → compute ceiling/remanent → apply q → apply p → check k
+- Processing order: validate → compute ceiling/remanent → apply q → apply p → omit zero-remanent → check k
 - Date comparison: parse dates for comparison but preserve original strings in output
 - Handle "2023-11-31" gracefully (lenient parsing, preserve in output)
 
@@ -447,10 +454,10 @@ None. All computation is self-contained.
 **Acceptance Criteria:**
 
 1. Given tests in `/test` folder
-   Then each file has comments specifying:
-   - Test type (Unit Test / Integration Test)
-   - Validation to be executed
-   - Command with arguments for execution
+   Then each file MUST have metadata comments (spec requirement — evaluated for bonus points):
+   - `# Test Type:` Unit Test / Integration Test
+   - `# Validation:` description of what is being validated
+   - `# Command:` pytest command with arguments for execution
 
 2. Given the test suite
    Then it covers:
@@ -746,7 +753,7 @@ PerformanceOutput
 | Metric | Target | How Measured |
 |--------|--------|--------------|
 | Endpoint correctness | 100% match on spec examples | Automated tests against worked example |
-| Edge case handling | All 13 critical traps handled | Unit tests per trap |
+| Edge case handling | All 17 critical traps handled | Unit tests per trap |
 | Test coverage | 10-15 tests passing | `pytest test/ -v` |
 | Docker build | Builds and runs on first try | Manual `docker build && docker run` |
 | Response time | < 1s for 10^4 transactions | Performance test |
@@ -778,6 +785,10 @@ These rules are non-negotiable. Violating any one can produce wrong answers:
 11. Field names: `totalTransactionAmount`, `totalCeiling`, `profit` (singular), `inkPeriod`
 12. Tax slabs are progressive/cumulative
 13. Amount exactly multiple of 100 → ceiling = same, remanent = 0
+14. Zero-remanent transactions after q/p processing → omit from filter valid output
+15. `inkPeriod` determined ONLY by k periods — never by q or p
+16. Never round intermediate calculations — full float precision throughout, `round(value, 2)` only at final output
+17. Pinned precision test: k[1] amount=145, age=29, inflation=5.5, NPS rate → profit MUST equal exactly 86.88
 
 ---
 
